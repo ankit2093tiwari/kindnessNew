@@ -157,9 +157,8 @@ const SliderCompNews = ({
                           <span className="textexpend">
                             <FacebookShareButton
                               url={`${process.env.BASE_LIVE_URL}/news/${item?.id}`}
-                              quote={item?.title}
-                              hashtag="#kindnesscampaign"
-                              description={item?.news_artical}
+                              quote={item?.title}                           
+                              hashtag={`#kindnesscampaign #${newsSectionFirstData?.title}`}
                             >
                               {" "}
                               <i

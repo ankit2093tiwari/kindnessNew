@@ -163,32 +163,21 @@ function NewsDetailPage({ data, Newsid }) {
         ) : null}
 
         <Head>
+          {console.log('data?', data)}
           <title>{data?.title}</title>
-          <meta name="description" content={data.news_artical} />
+          <meta name="description" content={data?.news_artical} />
 
           <meta property="og:type" content="website" />
-          <meta
-            property="og:url"
-            content={process.env.BASE_LIVE_URL + "news/" + data?.id}
-          />
+          <meta property="og:url" content={process.env.BASE_LIVE_URL + "news/" + data?.id} />
           <meta property="og:title" content={data?.title} />
           <meta property="og:description" content={data.description} />
-          <meta
-            property="og:image"
-            content={process.env.SITE_URL + data?.media}
-          />
+          <meta property="og:image" content={process.env.SITE_URL + data?.media} />
 
           <meta property="twitter:card" content="summary_large_image" />
-          <meta
-            property="twitter:url"
-            content={process.env.BASE_LIVE_URL + "news/" + data?.id}
-          />
+          <meta property="twitter:url" content={process.env.BASE_LIVE_URL + "news/" + data?.id} />
           <meta property="twitter:title" content={data?.title} />
           <meta property="twitter:description" content={data.description} />
-          <meta
-            property="twitter:image"
-            content={process.env.SITE_URL + data?.media}
-          />
+          <meta property="twitter:image" content={process.env.SITE_URL + data?.media} />
 
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link
@@ -332,6 +321,7 @@ function NewsDetailPage({ data, Newsid }) {
                   <FacebookShareButton
                     url={`${process.env.BASE_LIVE_URL}/news/${data?.id}`}
                     quote={data?.title}
+                    hashtag={`#${data?.title}`}
                   >
                     {" "}
                     <i
@@ -341,39 +331,18 @@ function NewsDetailPage({ data, Newsid }) {
                     &nbsp;
                   </FacebookShareButton>
                   &nbsp;
-                  <TwitterShareButton
-                    url={`${process.env.BASE_LIVE_URL}/news/${data?.id}`}
-                    title={data?.title}
-                  >
+                  <TwitterShareButton url={`${process.env.BASE_LIVE_URL}/news/${data?.id}`} title={data?.title} >
                     {" "}
-                    <i
-                      className="fa fa-twitter share_button_tkc"
-                      aria-hidden="true"
-                    />
+                    <i className="fa fa-twitter share_button_tkc" aria-hidden="true" />
                     &nbsp;
                   </TwitterShareButton>
                   &nbsp;
-                  <LinkedinShareButton
-                    url={`${process.env.BASE_LIVE_URL}/news/${data?.id}`}
-                    title={data?.title}
-                  >
+                  <LinkedinShareButton url={`${process.env.BASE_LIVE_URL}/news/${data?.id}`} title={data?.title} >
                     {" "}
-                    <i
-                      className="fa fa-linkedin-square share_button_tkc"
-                      aria-hidden="true"
-                    ></i>{" "}
+                    <i className="fa fa-linkedin-square share_button_tkc" aria-hidden="true" ></i>{" "}
                     &nbsp;
                   </LinkedinShareButton>
                 </h3>
-
-
-                <FacebookShareButton
-                  url={`${process.env.BASE_LIVE_URL}/news/${data?.id}`}
-                  quote={'next-share is a social share buttons for your next React apps.'}
-                  hashtag={'#nextshare'}
-                >
-                  <FacebookIcon size={32} round />
-                </FacebookShareButton>
               </div>
             </div>
           </div>

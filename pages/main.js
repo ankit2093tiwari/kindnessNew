@@ -3,12 +3,7 @@ import Link from "next/link";
 import Head from "next/head";
 
 import { useRouter } from "next/router";
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  LinkedinShareButton,
-  FacebookIcon,
-} from "react-share";
+import { FacebookShareButton, TwitterShareButton, LinkedinShareButton } from "next-share";
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import Layout from "@/layout/layoutTemplate";
@@ -496,11 +491,10 @@ function MainPage({ data }) {
                   {" "}
                   <Link
                     target="_blank"
-                    href={`${
-                      staticContent?.impact_link
+                    href={`${staticContent?.impact_link
                         ? staticContent?.impact_link
                         : "#!"
-                    }`}
+                      }`}
                   >
                     <u className="decriptions_wrap">
                       CLICK HERE for detail decriptions of our IMPACTS
@@ -645,7 +639,7 @@ function MainPage({ data }) {
                   <p className="fst2">
                     {newsSectionFirstData?.news_artical?.length > 500
                       ? newsSectionFirstData?.news_artical?.substring(0, 500) +
-                        "..."
+                      "..."
                       : newsSectionFirstData?.news_artical}
                   </p>
                   {newsSectionFirstData?.news_artical?.length > 500 && (
@@ -702,8 +696,7 @@ function MainPage({ data }) {
                             <FacebookShareButton
                               url={`${process.env.BASE_LIVE_URL}/news/${newsSectionFirstData?.id}`}
                               quote={newsSectionFirstData?.title}
-                              hashtag="#kindnesscampaign"
-                              description={newsSectionFirstData?.news_artical}
+                              hashtag={`#kindnesscampaign #${newsSectionFirstData?.title}`}
                             >
                               <i
                                 className="fa fa-facebook"
@@ -714,7 +707,7 @@ function MainPage({ data }) {
                                     newsSectionFirstData?.title,
                                     newsSectionFirstData?.news_artical,
                                     process.env.SITE_URL +
-                                      newsSectionFirstData?.media,
+                                    newsSectionFirstData?.media,
                                     process.env.BASE_LIVE_URL
                                   )
                                 }
