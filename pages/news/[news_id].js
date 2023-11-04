@@ -368,7 +368,7 @@ function NewsDetailPage({ data, Newsid }) {
 
 
                 <FacebookShareButton
-                  url={`http://localhost:3000/news/${data?.id}`}
+                  url={`${process.env.BASE_LIVE_URL}/news/${data?.id}`}
                   quote={'next-share is a social share buttons for your next React apps.'}
                   hashtag={'#nextshare'}
                 >
