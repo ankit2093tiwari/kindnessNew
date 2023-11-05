@@ -694,9 +694,9 @@ function MainPage({ data }) {
                           &nbsp;&nbsp;
                           <span className="textexpend">
                             <FacebookShareButton
-                              url={`${process.env.BASE_LIVE_URL}/news/${newsSectionFirstData?.id}`}
+                              url={`https://kindness-omega.vercel.app/news/145/`}
                               quote={newsSectionFirstData?.title}
-                              hashtag={`#kindnesscampaign #${newsSectionFirstData?.title}`}
+                              hashtag={`#kindnesscampaign, #${newsSectionFirstData?.title}`}
                             >
                               <i
                                 className="fa fa-facebook"

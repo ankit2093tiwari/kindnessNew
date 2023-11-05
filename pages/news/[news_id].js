@@ -164,25 +164,25 @@ function NewsDetailPage({ data, Newsid }) {
 
         <Head>
           {console.log('data?', data)}
-          <title>{data?.title}</title>
+          <title>{`The Kindness Campaign News`}</title>
           <meta name="description" content={data?.news_artical} />
 
           <meta property="og:type" content="website" />
-          <meta property="og:url" content={process.env.BASE_LIVE_URL + "news/" + data?.id} />
-          <meta property="og:title" content={data?.title} />
-          <meta property="og:description" content={data.description} />
-          <meta property="og:image" content={process.env.SITE_URL + data?.media} />
+          <meta property="og:url" content={'https://kindness-omega.vercel.app/news/145/'} />
+          <meta property="og:title" content={`The Kindness Campaign News`} />
+          <meta property="og:description" content={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`} />
+          <meta property="og:image" content={'https://nextupgrad.us/laravel-old/diligent-api/storage/images/new_file_zrrWAy1LyY.gif'} />
 
           <meta property="twitter:card" content="summary_large_image" />
-          <meta property="twitter:url" content={process.env.BASE_LIVE_URL + "news/" + data?.id} />
-          <meta property="twitter:title" content={data?.title} />
-          <meta property="twitter:description" content={data.description} />
-          <meta property="twitter:image" content={process.env.SITE_URL + data?.media} />
+          <meta property="twitter:url" content={'https://kindness-omega.vercel.app/news/145/'} />
+          <meta property="twitter:title" content={`The Kindness Campaign News`} />
+          <meta property="twitter:description" content={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`} />
+          <meta property="twitter:image" content={'https://nextupgrad.us/laravel-old/diligent-api/storage/images/new_file_zrrWAy1LyY.gif'} />
 
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link
             rel="canonical"
-            href={process.env.BASE_LIVE_URL + "news/" + data?.id}
+            href={'https://kindness-omega.vercel.app/news/145/'}
           />
         </Head>
 
@@ -321,7 +321,7 @@ function NewsDetailPage({ data, Newsid }) {
                   <FacebookShareButton
                     url={`${process.env.BASE_LIVE_URL}/news/${data?.id}`}
                     quote={data?.title}
-                    hashtag={`#${data?.title}`}
+                    hashtag={`#${data?.title} kindnessCampaign`}
                   >
                     {" "}
                     <i
