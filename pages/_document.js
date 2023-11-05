@@ -17,7 +17,7 @@ export default function Document() {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link
             rel="canonical"
-            href={'https://kindness-omega.vercel.app/news/145/'}
+            href={'https://kindness-omega.vercel.app/'}
           />
       </Head>
       <body>
