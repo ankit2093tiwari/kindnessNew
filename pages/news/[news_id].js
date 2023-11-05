@@ -43,20 +43,20 @@ export async function getStaticPaths() {
   });
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
 export async function getStaticProps(context) {
-  console.log("Context", context.params.news_id);
+ 
   const response = await fetch(
-    "https://nextupgrad.us/laravel-old/diligent-api/api/getHomeCampNewsAndSponsPartner"
+    process.env.API_URL+"api/getHomeCampNewsAndSponsPartner?id="+context.params.news_id
   );
 
   const data1 = await response.json();
-  const value = data1.data.filter((item) => item.id == context.params.news_id);
-  const data = value[0];
-
+  
+  const data = data1.data[0];
+ 
   return {
     props: { data, Newsid: context.params.news_id },
   };
@@ -162,27 +162,29 @@ function NewsDetailPage({ data, Newsid }) {
           </div>
         ) : null}
 
+       
+
         <Head>
-          {console.log('data?', data)}
-          <title>{`The Kindness Campaign News`}</title>
+        
+          <title>{data?.title}</title>
           <meta name="description" content={data?.news_artical} />
 
           <meta property="og:type" content="website" />
-          <meta property="og:url" content={'https://kindness-omega.vercel.app/news/145/'} />
-          <meta property="og:title" content={`The Kindness Campaign News`} />
-          <meta property="og:description" content={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`} />
-          <meta property="og:image" content={'https://nextupgrad.us/laravel-old/diligent-api/storage/images/new_file_zrrWAy1LyY.gif'} />
+          <meta property="og:url" content={process.env.BASE_LIVE_URL + "news/" + data?.id} />
+          <meta property="og:title" content={data?.title} />
+          <meta property="og:description" content={data.news_artical} />
+          <meta property="og:image" content={process.env.SITE_URL + data?.media} />
 
           <meta property="twitter:card" content="summary_large_image" />
-          <meta property="twitter:url" content={'https://kindness-omega.vercel.app/news/145/'} />
-          <meta property="twitter:title" content={`The Kindness Campaign News`} />
-          <meta property="twitter:description" content={`Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.`} />
-          <meta property="twitter:image" content={'https://nextupgrad.us/laravel-old/diligent-api/storage/images/new_file_zrrWAy1LyY.gif'} />
+          <meta property="twitter:url" content={process.env.BASE_LIVE_URL + "news/" + data?.id} />
+          <meta property="twitter:title" content={data?.title} />
+          <meta property="twitter:description" content={data.news_artical} />
+          <meta property="twitter:image" content={process.env.SITE_URL + data?.media} />
 
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link
             rel="canonical"
-            href={'https://kindness-omega.vercel.app/news/145/'}
+            href={process.env.BASE_LIVE_URL + "news/" + data?.id}
           />
         </Head>
 
