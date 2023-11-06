@@ -171,7 +171,7 @@ function NewsDetailPage({ data, Newsid }) {
 
           <meta property="og:type" content="website" />
           <meta property="og:url" content={process.env.BASE_LIVE_URL + "news/" + data?.id} />
-          <meta property="og:title" content={data?.title} />
+          <meta property="og:title" content='News Title' />
           <meta property="og:description" content={data.news_artical} />
           <meta property="og:image" content={process.env.SITE_URL + data?.media} />
 
