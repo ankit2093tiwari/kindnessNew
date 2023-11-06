@@ -4,7 +4,6 @@ const nextConfig = {
   reactStrictMode: false,
   basePath: "",
   trailingSlash: true,
-  distDir: "build",
   images: {
     unoptimized: true,
   },
