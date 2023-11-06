@@ -166,7 +166,7 @@ function NewsDetailPage({ data, Newsid }) {
 
         <Head>
         
-          <title>{data?.title}</title>
+          <title>News Title</title>
           <meta name="description" content={data?.news_artical} />
 
           <meta property="og:type" content="website" />
