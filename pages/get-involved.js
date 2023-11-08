@@ -155,10 +155,10 @@ const Get_involved = () => {
 
       if (newsResp?.data?.success) {
         let respData = newsResp?.data?.data?.reverse();
-        let SponserPartner = respData?.filter(
-          (item) => item?.sectionName == "spon_partner"
-        );
+        let SponserPartner = respData?.filter((item) => item?.sectionName == "spon_partner" && item?.active == "1");
         setSponsorPartnerData(SponserPartner);
+      }else{
+        setSponsorPartnerData([])
       }
     } catch (error) {
       console.log(error);
