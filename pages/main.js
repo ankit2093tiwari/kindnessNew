@@ -191,8 +191,7 @@ function MainPage({ data }) {
 
       if (newsResp?.data?.success) {
         let respData = newsResp?.data?.data?.reverse();
-        let currentDate = getFormatedDate(new Date(), "Y-MM-D");
-        console.log("respData", respData);
+        let currentDate = getFormatedDate(new Date(), "YYYY-MM-DD");
 
         let campignNews = respData?.filter(
           (item) =>
