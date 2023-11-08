@@ -61,8 +61,7 @@ export async function getStaticProps(context) {
     props: { data, Newsid: context.params.news_id, openGraphData: [
       {
         property: "og:image",
-        content:
-          "https://glievsbwngosqvrxtupy.supabase.co/storage/v1/object/public/event-banners/Jul%208%20Darkest%20Hour%20LONG.jpeg?t=2022-06-28T21%3A47%3A43.910Z",
+        content: "https://glievsbwngosqvrxtupy.supabase.co/storage/v1/object/public/event-banners/Jul%208%20Darkest%20Hour%20LONG.jpeg?t=2022-06-28T21%3A47%3A43.910Z",
         key: "ogimage",
       },
       {
