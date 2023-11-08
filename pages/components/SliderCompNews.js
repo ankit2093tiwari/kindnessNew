@@ -1,32 +1,18 @@
 import Slider from "react-slick";
-import {
-  BsFillArrowLeftCircleFill,
-  BsFillArrowRightCircleFill,
-} from "react-icons/bs";
+
 import Link from "next/link";
 import Image from "next/image";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ReactPlayer from "react-player";
+import { randomKey } from "@/store/library/utils";
 const SliderCompNews = ({
   newsSectionData,
   showLoader,
   FacebookShareButton,
   TwitterShareButton,
   LinkedinShareButton,
-  updateNewsView,
-  ogDesc,
-  setogDesc,
-  ogTitle,
-  setogTitle,
-  ogURL,
-  setogURL,
-  ogSiteName,
-  setogSiteName,
-  ogImg,
-  setogImg,
-  ogSummary,
-  setSummary,
+  updateNewsView, 
   handlefbshare,
   newsSectionFirstData,
 }) => {
@@ -104,7 +90,8 @@ const SliderCompNews = ({
         {newsSectionData?.length
           ? newsSectionData?.map((item, index) => (
             <>
-              <div className="sliderItemNews" key={index}>
+              <div className="sliderItemNews" key={randomKey()}>
+                
                 <article>
                   <div className="post-img">
                     {item.media_type == "image" ? (

@@ -180,13 +180,12 @@ function MainPage({ data }) {
     try {
       let params = {};
       params.sectionName = "camp_news";
-
+ 
       const newsResp = await getInvolvePageSevices.getDynamicData(params);
 
       if (newsResp?.data?.success) {
         let respData = newsResp?.data?.data?.reverse();
-
-        let currentDate = getFormatedDate(new Date(), "YYYY-MM-DD");      
+        let currentDate = getFormatedDate(new Date(), "YYYY-MM-DD");
 
         let campignNews = respData?.filter((item) => item?.sectionName == "camp_news" && item?.expire_date > currentDate && item?.active == "1");
 
