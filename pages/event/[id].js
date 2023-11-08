@@ -295,11 +295,10 @@ const singleEventData = ({ filter_data }) => {
 
 <div className="col-md-4">
   <img
-    src=${
-      filter_data2[0]?.event_media
+    src=${filter_data2[0]?.event_media
         ? process.env.SITE_URL + filter_data2[0]?.event_media
         : "/today_event_img.png"
-    }
+      }
     
     alt=${filter_data2[0]?.title}
   />
@@ -307,9 +306,8 @@ const singleEventData = ({ filter_data }) => {
 <p className="fst_event">
     <b>TIME:</b>
     
-    ${
-      filter_data2[0]?.time ? convertTo12HourFormat(filter_data2[0]?.time) : "-"
-    }
+    ${filter_data2[0]?.time ? convertTo12HourFormat(filter_data2[0]?.time) : "-"
+      }
   </p>
 <p className="fst_event">
     <b>LOCATION:</b>
@@ -440,9 +438,9 @@ const singleEventData = ({ filter_data }) => {
                             ? process.env.SITE_URL + promo.promo_video
                             : ""
                         }
-                        controls
-                        playing={true}
-                        muted={true}
+                        controls={true}
+                        playing={false}
+                        muted={false}
                         width={"100%"}
                         height={"100%"}
                       />
@@ -516,7 +514,7 @@ const singleEventData = ({ filter_data }) => {
                                 src={
                                   filter_data2[0]?.event_media
                                     ? process.env.SITE_URL +
-                                      filter_data2[0]?.event_media
+                                    filter_data2[0]?.event_media
                                     : "/today_event_img.png"
                                 }
                                 width={200}

@@ -2,6 +2,7 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { contactPageSevices } from "@/store/services/contactUs.js";
+import { homePageService } from "@/store/services/homepageServices";
 
 import showNotification from "@/helpers/show_notification";
 
@@ -34,7 +35,12 @@ const ContactUs = () => {
       formData.append("websiteLink", sharelink);
       formData.append("shareImage", shareimage);
 
-      const resp = await contactPageSevices.pageStaticData(formData);
+      const resp = await homePageService.pageStaticData(formData);
+      if (resp?.data?.success) {
+        showNotification(resp?.data?.message, "Success");
+      } else {
+        showNotification(resp?.data?.success, "Error");
+      }
     } catch (err) {
       // Handle any other errors that may occur during the request
       console.log(err);
@@ -261,7 +267,7 @@ const ContactUs = () => {
                     src={
                       contactStaticPageData?.contact_image
                         ? process.env.SITE_URL +
-                          contactStaticPageData?.contact_image
+                        contactStaticPageData?.contact_image
                         : "/no-img.jpg"
                     }
                     width={80}

@@ -48,15 +48,15 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
- 
+
   const response = await fetch(
-    process.env.API_URL+"api/getHomeCampNewsAndSponsPartner?id="+context.params.news_id
+    process.env.API_URL + "api/getHomeCampNewsAndSponsPartner?id=" + context.params.news_id
   );
 
   const data1 = await response.json();
-  
+
   const data = data1.data[0];
- 
+
   return {
     props: { data, Newsid: context.params.news_id },
   };
@@ -75,13 +75,8 @@ function NewsDetailPage({ data, Newsid }) {
 
   useEffect(() => {
     if (router.query.news_id) {
-      // console.log("DATA", data);
-      let id = router.query?.news_id;
-      // const singleNews = data.data.filter((item) => item.id == id);
-      // console.log("singleNews", singleNews);
-      console.log("DATA", data);
-      localStorage.setItem("N-d", data);
 
+      let id = router.query?.news_id;
       fetchComments(id);
     }
   }, [router.query.news_id]);
@@ -90,11 +85,9 @@ function NewsDetailPage({ data, Newsid }) {
   async function fetchComments(params) {
     try {
       const resp = await newsPageService.getFilteredComments(params);
-      // console.log("Comments ===>", resp);
-      const sortedComments = resp.data.data.filter(
-        (item) => item.post_id == params
-      );
-      // console.log("sortedCommentsOfNews", sortedComments);
+
+      const sortedComments = resp.data.data.filter((item) => item.post_id == params);
+
       setSortedCommentsOfNews(sortedComments);
     } catch (error) {
       console.log(error);
@@ -162,10 +155,10 @@ function NewsDetailPage({ data, Newsid }) {
           </div>
         ) : null}
 
-       
+
 
         <Head>
-        
+
           <title>{data?.title}</title>
           <meta name="description" content={data?.news_artical} />
 
@@ -181,11 +174,7 @@ function NewsDetailPage({ data, Newsid }) {
           <meta property="twitter:description" content={data.news_artical} />
           <meta property="twitter:image" content={process.env.SITE_URL + data?.media} />
 
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link
-            rel="canonical"
-            href={process.env.BASE_LIVE_URL + "news/" + data?.id}
-          />
+          <link rel="canonical" href={process.env.BASE_LIVE_URL + "news/" + data?.id} />
         </Head>
 
         <section className="news_title_one ">
@@ -238,8 +227,9 @@ function NewsDetailPage({ data, Newsid }) {
                   ) : (
                     <ReactPlayer
                       url={data?.media}
-                      playing={true}
-                      muted={true}
+                      controls={true}
+                      playing={false}
+                      muted={false}
                       width={"100%"}
                     />
                   )}

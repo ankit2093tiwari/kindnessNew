@@ -666,9 +666,9 @@ const Get_involved = () => {
                                 ? process.env.SITE_URL + data2?.image
                                 : "demo-video.mp4"
                             }
-                            controls
-                            playing={true}
-                            muted={true}
+                            controls={true}
+                            playing={false}
+                            muted={false}
                             width={"100%"}
                             height={300}
                           />
@@ -791,7 +791,7 @@ const Get_involved = () => {
             </h2>
           </section> */}
 
-        <p className="Sponsors_Partners_Spotligh mt-5">
+        {/* <p className="Sponsors_Partners_Spotligh mt-5">
           Sponsors &amp; Partners Spotlight
         </p>
         {sponsorPartnerData?.length ? (
@@ -818,9 +818,9 @@ const Get_involved = () => {
                 })}
               </div>
 
-              <div className="row sponsors_wrap_row mt-4">
+              <div className="row sponsors_wrap_row mt-4" style={{display:"flex",flexWrap:"wrap"}}>
                 {sponsorPartnerData?.map((sponsItem, index) => {
-                  if (index > 4 && index < 10)
+                  // if (index > 4 && index < 10)
                     return (
                       <div className="col" key={randomKey()}>
                         <Image
@@ -847,7 +847,64 @@ const Get_involved = () => {
           </section>
         ) : (
           ""
+        )} */}
+        {sponsorPartnerData?.length ? (
+          <section className="Sponsors-and-Partner bg-secondary-1 pb-4">
+            <p className="Sponsors_Partners_Spotligh mt-4">
+              Sponsors &amp; Partners Spotlight
+            </p>
+            <div className="container sponsors_wrap">
+              <ul className=" row sponsors_wrap_row sponsorList">
+                {sponsorPartnerData?.map((sponsItem, index) => {
+                  return (
+                    <li className="col" key={randomKey()}>
+                      <Image
+                        src={
+                          sponsItem?.media
+                            ? process.env.SITE_URL + sponsItem?.media
+                            : "clients/client-1.png"
+                        }
+                        width={224}
+                        height={115}
+                        alt={sponsItem?.title}
+                        className="img-fluid"
+                      />
+                    </li>
+                  );
+                })}
+              </ul>
+
+              {/* <div className="row sponsors_wrap_row mt-4">
+                {sponsorPartnerData?.map((sponsItem, index) => {
+                  if (index > 4 && index < 10)
+                    return (
+                      <div className="col" key={randomKey()}>
+                        <Image
+                          src={
+                            sponsItem?.media
+                              ? process.env.SITE_URL + sponsItem?.media
+                              : "clients/client-1.png"
+                          }
+                          width={224}
+                          height={115}
+                          alt={sponsItem?.title}
+                          className="img-fluid"
+                        />
+                      </div>
+                    );
+                })}
+              </div> */}
+            </div>
+
+            <h2 className="text-center my-5 support">
+              {" "}
+              “Thank you for all your support. We appreciate you!”
+            </h2>
+          </section>
+        ) : (
+          ""
         )}
+
       </Layout>
     </>
   );

@@ -108,7 +108,7 @@ function MainPage({ data }) {
 
       if (response?.data?.success) {
         setShowLoader(false);
-        router.push(`/news/${newsId}`);
+        // router.push(`/news/${newsId}`);
       } else {
         setShowLoader(false);
         showNotification(response?.data?.message, "Error");
@@ -197,10 +197,10 @@ function MainPage({ data }) {
         let campignNews = respData?.filter(
           (item) =>
             item?.sectionName == "camp_news" &&
-            item?.expire_date >= currentDate &&
+            item?.expire_date > currentDate &&
             item?.active == "1"
         );
-        console.log("campignNews", campignNews);
+
         let SponserPartner = respData?.filter(
           (item) => item?.sectionName == "spon_partner" && item?.active == "1"
         );
@@ -210,7 +210,7 @@ function MainPage({ data }) {
           let firstNewsData = campignNews?.filter(
             (item) => item?.featuredItem == "1"
           );
-          console.log("firstNewsData", firstNewsData);
+
           setNewsSectionFirstData(firstNewsData[0]);
           let AllNewsData = campignNews?.filter(
             (item) => item?.featuredItem != "1"
@@ -350,9 +350,9 @@ function MainPage({ data }) {
                             ? process.env.SITE_URL + staticContent?.image
                             : "demo-video.mp4"
                         }
-                        controls={false}
-                        playing={true}
-                        muted={true}
+                        controls={true}
+                        autoplay={false}
+                        muted={false}
                         width={100}
                         height={100}
                       />
@@ -381,9 +381,9 @@ function MainPage({ data }) {
                             ? process.env.SITE_URL + staticContent?.image2
                             : "demo-video.mp4"
                         }
-                        controls={false}
-                        playing={true}
-                        muted={true}
+                        controls={true}
+                        playing={false}
+                        muted={false}
                         width={"100%"}
                       />
                     ) : (
@@ -412,7 +412,7 @@ function MainPage({ data }) {
                             : "demo-video.mp4"
                         }
                         controls={false}
-                        playing={true}
+                        playing={false}
                         muted={true}
                         width={100}
                         height={100}
@@ -492,8 +492,8 @@ function MainPage({ data }) {
                   <Link
                     target="_blank"
                     href={`${staticContent?.impact_link
-                        ? staticContent?.impact_link
-                        : "#!"
+                      ? staticContent?.impact_link
+                      : "#!"
                       }`}
                   >
                     <u className="decriptions_wrap">
@@ -614,27 +614,30 @@ function MainPage({ data }) {
                   ) : (
                     <ReactPlayer
                       url={newsSectionFirstData?.media}
-                      playing={true}
-                      muted={true}
+                      playing={false}
+                      controls={true}
+                      muted={false}
                       width={"100%"}
                     />
                   )}
                 </div>
                 <div className="col-md-12 col-lg-6 news_sec">
-                  <span
-                    className="newsLink"
-                    disabled={showLoader}
-                    onClick={() =>
-                      updateNewsView(
-                        newsSectionFirstData?.id,
-                        newsSectionFirstData?.view
-                      )
-                    }
-                  >
-                    <h2 className="News_title2">
-                      {newsSectionFirstData?.title}
-                    </h2>
-                  </span>
+                  <Link href={"/news/" + newsSectionFirstData?.id} target="_blank" onClick={() =>
+                    updateNewsView(
+                      newsSectionFirstData?.id,
+                      newsSectionFirstData?.view
+                    )
+                  }>
+                    <span
+                      className="newsLink"
+                      disabled={showLoader}
+
+                    >
+
+                      <h2 className="News_title2"  >
+                        {newsSectionFirstData?.title}
+                      </h2>
+                    </span></Link>
 
                   <p className="fst2">
                     {newsSectionFirstData?.news_artical?.length > 500
@@ -660,7 +663,7 @@ function MainPage({ data }) {
                   <div className="row mt-4 icons">
                     <div className="col-md-2">
                       <h3 className="align-self-center">
-                        <Link href="#!">
+                        <Link href="#!" target="_blank">
                           <span className="share_wrap">
                             <i className="fa fa-comment" aria-hidden="true" />
                             {featuredCmts?.length > 0
@@ -845,7 +848,7 @@ function MainPage({ data }) {
                     sizes="100vw"
                     className="news_title_1"
                   />
-                  <Link href="./get-involved/#volunteer">
+                  <Link href="./get-involved/#volunteer" target="_blank">
                     <p className="get_kindness">
                       VOLUNTEER <br />
                       {volunteerText?.length > 100
@@ -864,7 +867,7 @@ function MainPage({ data }) {
                     sizes="100vw"
                     style={{ width: "100%", height: "auto" }}
                   />
-                  <Link href="get-involved/#partner">
+                  <Link href="get-involved/#partner" target="_blank">
                     <p className="get_kindness">
                       PARTNER <br />
                       {partnerText?.length > 100

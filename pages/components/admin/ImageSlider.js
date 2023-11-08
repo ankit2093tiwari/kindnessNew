@@ -47,18 +47,18 @@ const ImageSlider = ({ Images }) => {
       <Slider {...settings}>
         {Images?.length > 0
           ? Images?.map((item, key) => (
-              <div key={key}>
-                <img
-                  id="fix-width-piyush"
-                  src={
-                    item?.event_media
-                      ? process.env.SITE_URL + item?.event_media
-                      : "/about-2.jpg"
-                  }
-                  alt="Picture of the author"
-                />
-              </div>
-            ))
+            <div key={key} style={{ display: "flex", alignItems: "center" }}>
+              <img
+                id="fix-width-piyush"
+                src={
+                  item?.event_media
+                    ? process.env.SITE_URL + item?.event_media
+                    : "/about-2.jpg"
+                }
+                alt="Picture of the author"
+              />
+            </div>
+          ))
           : null}
       </Slider>
     </div>

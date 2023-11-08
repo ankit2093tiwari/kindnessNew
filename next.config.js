@@ -4,7 +4,6 @@ const nextConfig = {
   reactStrictMode: false,
   basePath: "",
   trailingSlash: true,
-  distDir: "build",
   images: {
     unoptimized: true,
   },
@@ -14,8 +13,7 @@ const nextConfig = {
     API_URL: process.env.API_URL,
     BASEURL: process.env.BASEURL,
     BASE_LIVE_URL: process.env.BASE_LIVE_URL,
-    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY:
-      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
   },
 };

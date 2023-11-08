@@ -361,9 +361,9 @@ const Events = () => {
                               ? process.env.SITE_URL + promo.promo_video
                               : ""
                           }
-                          controls
-                          playing={true}
-                          muted={true}
+                          controls={true}
+                          playing={false}
+                          muted={false}
                           width={"100%"}
                           height={"100%"}
                         />
