@@ -3074,6 +3074,7 @@ button-1 {
   margin: 0;
   padding: 0;
   color: white;
+  word-break: break-word;
   font-size: 12pt;
   text-align: end;
 }
@@ -4168,7 +4169,7 @@ input[type="text"]:hover {
 .search11 {
   display: flex;
   margin-left: 60px;
-  z-index: 99999;
+
 }
 
 .searchTerm11 {
@@ -4526,4 +4527,20 @@ input[type="text"]:hover {
 }
 .slick-initialized {
   margin-left: 3rem;
+}
+.get_involved_sidebar_1>div>img{
+    
+    width:100%;
+    height: auto;
+}
+.event_intrest{
+  padding-left: 0;
+
+}
+.slick-slider>div>div{
+    display:flex;
+    align-items: center;
+}
+.homepageModel>div>div{
+  max-width: 900px !important;
 }

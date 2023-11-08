@@ -200,12 +200,11 @@ function MainPage({ data }) {
           );
 
           setNewsSectionFirstData(firstNewsData[0]);
-          console.log("campignNews =====", campignNews);
+          
           let AllNewsData = campignNews?.filter(
             (item) => item?.featuredItem != "1"
           );
           setNewsSectionData(AllNewsData);
-          console.log("AllNewsData", AllNewsData);
         } else {
           setNewsSectionFirstData();
           setNewsSectionData([]);

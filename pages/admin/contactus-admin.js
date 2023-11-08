@@ -4,6 +4,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { contactPageSevices } from "@/store/services/contactUs.js";
 import { homePageService } from "@/store/services/homepageServices";
 
+import { Spinner } from "react-bootstrap";
+
 import showNotification from "@/helpers/show_notification";
 
 import AdminLayout from "@/layout/adminLayout";
@@ -21,12 +23,14 @@ const ContactUs = () => {
   const [sharelink, setsharelink] = useState("");
 
   const [contactStaticPageData, setContactStaticPageData] = useState([]);
+  const [isSubmitingLoader, setIsSubmitingLoader] = useState(false);
 
   useEffect(() => {
     contactPageData();
   }, []);
 
   const updatecontactform1 = async () => {
+    setIsSubmitingLoader(true)
     try {
       const formData = new FormData();
       formData.append("pageName", "contact_us");
@@ -45,9 +49,11 @@ const ContactUs = () => {
       // Handle any other errors that may occur during the request
       console.log(err);
     }
+    setIsSubmitingLoader(false)
   };
 
   const updateContactus = async (e) => {
+    setIsSubmitingLoader(true)
     //e.preventDefault();
     const formData = new FormData();
     formData.append("contactHeader", contactHeader);
@@ -70,9 +76,11 @@ const ContactUs = () => {
       console.log("err", err);
       showNotification(resp?.data?.success, "Error");
     }
+    setIsSubmitingLoader(false)
   };
 
   const contactPageData = async () => {
+    setIsSubmitingLoader(true)
     try {
       const resp = await contactPageSevices.contactUsGet();
 
@@ -99,12 +107,28 @@ const ContactUs = () => {
       // Handle any other errors that may occur during the request
       console.log(err);
     }
+    setIsSubmitingLoader(false)
   };
 
   return (
     <>
       <AdminLayout title={"Contact us - Kindness Admin"}>
         <main role="main">
+        {isSubmitingLoader ? (
+            <div className="overlay">
+              <div className="spinner-container">
+                <Spinner
+                  className="loaderSpinnerPiyush"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    color: "#0a1c51fc",
+                  }}
+                  animation="border"
+                />
+              </div>
+            </div>
+          ) : null}
           <section className="panel important">
             <h2>
               {" "}
@@ -267,7 +291,7 @@ const ContactUs = () => {
                     src={
                       contactStaticPageData?.contact_image
                         ? process.env.SITE_URL +
-                        contactStaticPageData?.contact_image
+                          contactStaticPageData?.contact_image
                         : "/no-img.jpg"
                     }
                     width={80}

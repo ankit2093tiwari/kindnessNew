@@ -22,6 +22,8 @@ const GetInvolved = () => {
   //states for update API public Equity - piyush
   const [text, settext] = useState();
   const [downloadLoader, setDownloadLoader] = useState(false);
+  const [isSubmitingLoader, setIsSubmitingLoader] = useState(false);
+
 
   const [editDesActive, setEditDesActive] = useState(0);
   //function to update data - piyush
@@ -44,6 +46,7 @@ const GetInvolved = () => {
   const updateFormData = async (id, sectionName) => {
     try {
       if (sectionName == "InterestList") {
+        setIsSubmitingLoader(true)
         const formData = new FormData();
         formData.append("updateId", id);
         formData.append("interest", text);
@@ -56,11 +59,15 @@ const GetInvolved = () => {
           if (resp?.data?.success) {
             showNotification(resp?.data?.message, "Success");
             getInterestList();
+            setIsSubmitingLoader(false)
           } else {
+            setIsSubmitingLoader(false)
+
             showNotification(resp?.data?.message, "Error");
           }
         } catch (err) {
           // Handle any other errors that may occur during the request
+          setIsSubmitingLoader(false)
           console.log(err);
         }
       }
@@ -73,13 +80,18 @@ const GetInvolved = () => {
   async function deleteData(data, sectionName) {
     if (sectionName == "InterestList") {
       try {
+        setIsSubmitingLoader(true)
+
         const params = { delId: data };
         const delResp = await getInvolvePageSevices.deleteInterestList(params);
 
         const newInterestList = interestList.filter((item) => item.id != data);
         setinterestList(newInterestList);
+        setIsSubmitingLoader(false)
+
         showNotification("Item deleted", "Success");
       } catch (error) {
+        setIsSubmitingLoader(false)
         console.log(error);
       }
     }
@@ -101,6 +113,8 @@ const GetInvolved = () => {
 
   async function updateData(data) {
     if (data == "section1") {
+      setIsSubmitingLoader(true)
+
       const formData = new FormData();
       formData.append("interest", interest);
       formData.append("active", active);
@@ -110,51 +124,60 @@ const GetInvolved = () => {
         );
 
         if (resp?.data?.success) {
+          setIsSubmitingLoader(false)
           showNotification(resp?.data?.message, "Success");
         } else {
+          setIsSubmitingLoader(false)
           showNotification(resp?.data?.message, "Error");
         }
       } catch (err) {
         // Handle any other errors that may occur during the request
+        setIsSubmitingLoader(false)
         console.log(err);
       }
     } else if (data == "section2") {
+      setIsSubmitingLoader(true)
       const formData = new FormData();
       formData.append("pageName", "get_involved");
       formData.append("volunteerText", volText);
 
       try {
-        const resp = await getInvolvePageSevices.updateLearnMoreSection(
-          formData
-        );
+        const resp = await getInvolvePageSevices.updateLearnMoreSection(formData);
         if (resp?.data?.success) {
+          setIsSubmitingLoader(false)
           showNotification(resp?.data?.message, "Success");
         } else {
+          setIsSubmitingLoader(false)
           showNotification(resp?.data?.message, "Error");
         }
       } catch (err) {
         // Handle any other errors that may occur during the request
+        setIsSubmitingLoader(false)
         console.log(err);
       }
     } else if (data == "section3") {
+      setIsSubmitingLoader(true)
       const formData = new FormData();
       formData.append("pageName", "get_involved");
       formData.append("volunteerText", volunteerText);
 
       try {
-        const resp = await getInvolvePageSevices.updateLearnMoreSection(
-          formData
-        );
+        const resp = await getInvolvePageSevices.updateLearnMoreSection(formData);
         if (resp?.data?.success) {
+          setIsSubmitingLoader(false)
           showNotification(resp?.data?.message, "Success");
         } else {
+          setIsSubmitingLoader(false)
           showNotification(resp?.data?.message, "Error");
         }
       } catch (err) {
         // Handle any other errors that may occur during the request
+        setIsSubmitingLoader(false)
         console.log(err);
       }
     } else if (data == "section4") {
+      setIsSubmitingLoader(true)
+
       const formData = new FormData();
       formData.append("pageName", "get_involved");
       formData.append("partnerText", partnerText);
@@ -164,12 +187,15 @@ const GetInvolved = () => {
           formData
         );
         if (resp?.data?.success) {
+          setIsSubmitingLoader(false)
           showNotification(resp?.data?.message, "Success");
         } else {
+          setIsSubmitingLoader(false)
           showNotification(resp?.data?.message, "Error");
         }
       } catch (err) {
         // Handle any other errors that may occur during the request
+        setIsSubmitingLoader(false)
         console.log(err);
       }
     }
@@ -262,6 +288,21 @@ const GetInvolved = () => {
     <>
       <AdminLayout title={"Admin panel"}>
         <main role="main">
+          {isSubmitingLoader ? (
+            <div className="overlay">
+              <div className="spinner-container">
+                <Spinner
+                  className="loaderSpinnerPiyush"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    color: "#0a1c51fc",
+                  }}
+                  animation="border"
+                />
+              </div>
+            </div>
+          ) : null}
           <section className="panel important">
             <h2>
               {" "}
@@ -323,27 +364,41 @@ const GetInvolved = () => {
                               <td>
                                 {getFormatedDate(
                                   item?.created_at,
-                                  "DD-MM-YYYY"
+                                  "MM/DD/YYYY"
                                 )}
                               </td>
-                              <td>{item.active ? "Yes" : "No"}</td>
+                              <td>{parseInt(item.active) ? "Yes" : "No"}</td>
                             </>
                           )}
                           <td>
-                            <button
+                            {/* <button
                               className="btn btn-primary mx-1"
                               onClick={() =>
                                 item?.edit
                                   ? updateFormData(item?.id, "InterestList")
                                   : editFieldData(
-                                      item?.id,
-                                      index,
-                                      "InterestList"
-                                    )
+                                    item?.id,
+                                    index,
+                                    "InterestList"
+                                  )
                               }
                             >
                               {" "}
                               Update{" "}
+                            </button> */}
+
+                            <button className="btn btn-primary mx-1" onClick={() => item?.edit ? updateFormData(item?.id, "InterestList") : editFieldData(item?.id, index, "InterestList")} >
+                              {item?.edit ? (
+                                <i
+                                  className="fa fa-floppy-o"
+                                  aria-hidden="true"
+                                />
+                              ) : (
+                                <i
+                                  className="fa fa-pencil-square-o"
+                                  aria-hidden="true"
+                                />
+                              )}
                             </button>
 
                             <button
@@ -468,32 +523,15 @@ const GetInvolved = () => {
                     <tbody>
                       {learnMoreList?.map((item, key) => (
                         <tr key={key}>
+                          {console.log('item', item)}
                           <td>{key + 1}</td>
-                          <td>{item.name}</td>
-                          <td>{item.email}</td>
-                          <td>{item.phone}</td>
-                          <td>{item.interest}</td>
-                          <td>{item.message}</td>
-                          <td>{item.created_at}</td>
+                          <td>{item?.name}</td>
+                          <td>{item?.email}</td>
+                          <td>{item?.phone}</td>
+                          <td>{item?.interest_type}</td>
+                          <td>{item?.message}</td>
+                          <td>{getFormatedDate(item?.created_at, "MM/DD/YYYY")}</td>
                           <td>
-                            <button
-                              className="btn btn-primary mx-1"
-                              onClick={() =>
-                                updateData(item.id, "LearnMoreList")
-                              }
-                            >
-                              {item?.edit ? (
-                                <i
-                                  className="fa fa-floppy-o"
-                                  aria-hidden="true"
-                                />
-                              ) : (
-                                <i
-                                  className="fa fa-pencil-square-o"
-                                  aria-hidden="true"
-                                />
-                              )}
-                            </button>
 
                             <button
                               className="btn btn-secondary"
@@ -510,7 +548,7 @@ const GetInvolved = () => {
                   </table>
                   <div className="text-right">
                     <p>
-                      <b>Interested Total = 35</b>
+                      <b>Interested Total = {learnMoreList?.length ? learnMoreList?.length : 0}</b>
                     </p>
                   </div>
                 </div>
@@ -700,9 +738,9 @@ const GetInvolved = () => {
                             <td>
                               {item?.created_at
                                 ? getFormatedDate(
-                                    item?.created_at,
-                                    "DD-MM-YYYY"
-                                  )
+                                  item?.created_at,
+                                  "DD-MM-YYYY"
+                                )
                                 : ""}
                             </td>
                           </tr>

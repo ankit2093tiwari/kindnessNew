@@ -28,12 +28,7 @@ export default function Footer() {
               </a>
             </div>
             <div className="col-md-12 col-lg-6 footer-info">
-              <p>
-                Lorem ipsum dolor sit amet, eder iut consectetuer adipiscing
-                elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore
-                magna aliquam erat volutpat ed diam nonummy nibh euismod
-                tincidunt ut laoreet dolore magna aliquam erat volutpat.
-              </p>
+              
               <div className="row">
                 <div className="col-md-6 col-lg-6">
                   <p className="footer_btn">

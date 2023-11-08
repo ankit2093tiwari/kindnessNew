@@ -13,12 +13,14 @@ const Events = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [isSubmitingLoader, setIsSubmitingLoader] = useState(false);
 
   useEffect(() => {
     contactPageData();
   }, []);
 
   const contactPageData = async () => {
+    setIsSubmitingLoader(true)
     try {
       const resp = await contactPageSevices.contactUsGet();
       setdata(resp?.data?.data);
@@ -26,9 +28,11 @@ const Events = () => {
       // Handle any other errors that may occur during the request
       console.log(err);
     }
+    setIsSubmitingLoader(false)
   };
 
   const submitContactForm = async (e) => {
+    setIsSubmitingLoader(true)
     try {
       const formData = new FormData();
 
@@ -48,14 +52,16 @@ const Events = () => {
         setMessage("");
 
         showNotification(response?.data.message, "Success");
-        // showNotification("Form sent successfully", "Success");
-      } else {
-        console.log("else RAN");
-        showNotification("Error");
       }
+        // showNotification("Form sent successfully", "Success");
+      //  else {
+      //   console.log("else RAN");
+      //   showNotification("Error");
+      // }
     } catch (error) {
       console.error(error);
     }
+    setIsSubmitingLoader(false)
   };
 
   return (
@@ -67,7 +73,24 @@ const Events = () => {
       </Head>
 
       <Layout title={"Contact Us"}>
+      {isSubmitingLoader ? (
+            <div className="overlay">
+              <div className="spinner-container">
+                <Spinner
+                  className="loaderSpinnerPiyush"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    color: "#0a1c51fc",
+                  }}
+                  animation="border"
+                />
+              </div>
+            </div>
+          ) : null}
         <section id="contact" className="contact_us_wrap hero">
+        
+       
           <div className="container">
             <div className="row">
               <div className="col-md-12 col-lg-5 align-self-center wow fadeInUp over_contact_wrap">
@@ -197,7 +220,7 @@ const Events = () => {
                       type="button"
                       onClick={submitContactForm}
                       className="Contact_form_btn"
-                    >
+                    > 
                       Send
                     </button>
                   </form>

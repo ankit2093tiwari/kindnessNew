@@ -100,6 +100,7 @@ const DonatePage = () => {
   };
 
   async function updateData(data) {
+    setIsSubmitingLoader(true)
     if (data == "section1") {
       const formData = new FormData();
       formData.append("pageName", "donate");
@@ -108,6 +109,7 @@ const DonatePage = () => {
 
       try {
         const resp = await getDonatePageSevices.updateDonateSection(formData);
+        showNotification("Data Saved Successfully", "Success");
       } catch (err) {
         // Handle any other errors that may occur during the request
         console.log(err);
@@ -119,6 +121,7 @@ const DonatePage = () => {
 
       try {
         const resp = await getDonatePageSevices.updateDonateSection(formData);
+        showNotification("Data Saved Successfully", "Success");
       } catch (err) {
         // Handle any other errors that may occur during the request
         console.log(err);
@@ -131,6 +134,7 @@ const DonatePage = () => {
 
       try {
         const resp = await getDonatePageSevices.updateDonateSection(formData);
+        showNotification("Data Saved Successfully", "Success");
       } catch (err) {
         // Handle any other errors that may occur during the request
         console.log(err);
@@ -143,6 +147,7 @@ const DonatePage = () => {
 
       try {
         const resp = await getDonatePageSevices.updateDonateSection(formData);
+        showNotification("Data Saved Successfully", "Success");
       } catch (err) {
         // Handle any other errors that may occur during the request
         console.log(err);
@@ -156,6 +161,7 @@ const DonatePage = () => {
 
       try {
         const resp = await getDonatePageSevices.updateDonType(formData);
+        showNotification("Data Saved Successfully", "Success");
       } catch (err) {
         // Handle any other errors that may occur during the request
         console.log(err);
@@ -168,6 +174,7 @@ const DonatePage = () => {
 
       try {
         const resp = await getDonatePageSevices.updateDonType(formData);
+        showNotification("Data Saved Successfully", "Success");
       } catch (err) {
         // Handle any other errors that may occur during the request
         console.log(err);
@@ -179,11 +186,14 @@ const DonatePage = () => {
 
       try {
         const resp = await getDonatePageSevices.updateDonType(formData);
+        showNotification("Data Saved Successfully", "Success");
       } catch (err) {
         // Handle any other errors that may occur during the request
         console.log(err);
       }
     }
+    setIsSubmitingLoader(false)
+  
   }
 
   const dynamicData = async () => {

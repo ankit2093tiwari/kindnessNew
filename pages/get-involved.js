@@ -7,12 +7,14 @@ import {
   checkImageOrVideoFromUrl,
   checkIsNumber,
   randomKey,
+  emailValidation
 } from "@/store/library/utils";
 import ReactPlayer from "react-player";
 import { loadStripe } from "@stripe/stripe-js";
 import Modal from "./components/admin/Modal";
 import showNotification from "@/helpers/show_notification";
 import { getInvolvePageSevices } from "@/store/services/getInvolvedPageService";
+import { Spinner } from "react-bootstrap";
 
 const Get_involved = () => {
   const [data2, setdata2] = useState("");
@@ -36,9 +38,11 @@ const Get_involved = () => {
   const [toggle, settoggle] = useState(false);
 
   const [loading, setLoading] = useState(false);
+  const [loaderStatus, setLoaderStatus] = useState(false);
   const [name, setname] = useState("");
   const [email, setemail] = useState("");
   const [phone, setphone] = useState("");
+  const [interestList, setInterestList] = useState([]);
   const [interest, setinterest] = useState("");
   const [msg, setmsg] = useState("");
 
@@ -51,27 +55,58 @@ const Get_involved = () => {
     setSelectedOption(e.target.value);
   };
 
-  async function postLearnMore() {
+  const getInterestList = async () => {
     try {
-      const formData = new FormData();
-      formData.append("section_name", "learn_more");
-      formData.append("name", name);
-      formData.append("email", email);
-      formData.append("phone", phone);
-      formData.append("interest", interest);
-      formData.append("message", msg);
-      const response =
-        await getInvolvePageSevices.updateLearnMoreSectionFrontend(formData);
-      console.log(response);
+      const intListresp = await getInvolvePageSevices.getInterestList();
+
+      if (intListresp?.data?.success) {
+        const activeIntrests = intListresp?.data?.data?.filter((item) => item.active == "1");
+        setInterestList(activeIntrests);
+      }
+
     } catch (err) {
       // Handle any other errors that may occur during the request
       console.log(err);
     }
+  };
+
+  async function postLearnMore() {
+    if (name != "" && email != "" && phone!="" && selectedOption !="") {
+      setLoaderStatus(true)
+
+      try {
+        const formData = new FormData();
+        formData.append("section_name", "learn_more");
+        formData.append("name", name);
+        formData.append("email", email);
+        formData.append("phone", phone);
+        formData.append("interest", selectedOption);
+        formData.append("message", msg);
+
+        const response = await getInvolvePageSevices.updateLearnMoreSectionFrontend(formData);
+
+        if (response?.data?.success) {
+          setLoaderStatus(false)
+          setname("");
+          setemail("");
+          setphone("");
+          setSelectedOption("")
+
+          showNotification("Form Submit Successfully", "Success")
+
+        } else {
+          setLoaderStatus(false)
+        }
+      } catch (err) {
+        // Handle any other errors that may occur during the request
+        console.log(err);
+      }
+    }else{
+      showNotification("Please fill all fields", "Error")
+    }
   }
 
-  useEffect(() => {
-    console.log("CheckBox", selectedOption);
-  }, [selectedOption]);
+
   const createCheckOutSession = async (event) => {
     if (
       customAmount == 0 &&
@@ -106,45 +141,47 @@ const Get_involved = () => {
   }
 
   useEffect(() => {
-    const camppage3 = async () => {
-      try {
-        const resp2 = await getInvolvePageSevices.getStaticData();
-
-        setdata4(resp2?.data?.data[0]);
-      } catch (err) {
-        // Handle any other errors that may occur during the request
-        console.log(err);
-      }
-    };
-    const camppage2 = async () => {
-      try {
-        const resp2 = await getInvolvePageSevices.getStaticDataPiyush();
-
-        if (resp2?.data?.success) {
-          let get_involved = resp2?.data?.data?.filter(
-            (item) => item?.page_name == "get_involved"
-          );
-          let donate = resp2?.data?.data?.filter(
-            (item) => item?.page_name == "donate"
-          );
-          if (donate[0]?.image) {
-            donate[0].imageType = checkImageOrVideoFromUrl(donate[0]?.image);
-          }
-
-          setdata3(get_involved[0]);
-          setdata2(donate[0]);
-        } else {
-        }
-      } catch (err) {
-        // Handle any other errors that may occur during the request
-        console.log(err);
-      }
-    };
+    getInterestList();
 
     camppage2();
     camppage3();
     showNewsSection();
   }, []);
+
+  const camppage3 = async () => {
+    try {
+      const resp2 = await getInvolvePageSevices.getStaticData();
+
+      setdata4(resp2?.data?.data[0]);
+    } catch (err) {
+      // Handle any other errors that may occur during the request
+      console.log(err);
+    }
+  };
+  const camppage2 = async () => {
+    try {
+      const resp2 = await getInvolvePageSevices.getStaticDataPiyush();
+
+      if (resp2?.data?.success) {
+        let get_involved = resp2?.data?.data?.filter(
+          (item) => item?.page_name == "get_involved"
+        );
+        let donate = resp2?.data?.data?.filter(
+          (item) => item?.page_name == "donate"
+        );
+        if (donate[0]?.image) {
+          donate[0].imageType = checkImageOrVideoFromUrl(donate[0]?.image);
+        }
+
+        setdata3(get_involved[0]);
+        setdata2(donate[0]);
+      } else {
+      }
+    } catch (err) {
+      // Handle any other errors that may occur during the request
+      console.log(err);
+    }
+  };
 
   const showNewsSection = async () => {
     try {
@@ -157,7 +194,7 @@ const Get_involved = () => {
         let respData = newsResp?.data?.data?.reverse();
         let SponserPartner = respData?.filter((item) => item?.sectionName == "spon_partner" && item?.active == "1");
         setSponsorPartnerData(SponserPartner);
-      }else{
+      } else {
         setSponsorPartnerData([])
       }
     } catch (error) {
@@ -537,6 +574,7 @@ const Get_involved = () => {
                       className="donation_form_text"
                       placeholder="Name"
                       aria-label="Name *"
+                      value={name}
                       onChange={(e) => setname(e.target.value)}
                     />
 
@@ -546,6 +584,7 @@ const Get_involved = () => {
                       id="inputEmail"
                       placeholder="Email *"
                       onChange={(e) => setemail(e.target.value)}
+                      value={email}
                     />
 
                     <input
@@ -553,6 +592,7 @@ const Get_involved = () => {
                       className="donation_form_text"
                       id="inputnumber"
                       placeholder="Phone:"
+                      value={phone}
                       onChange={(e) => setphone(e.target.value)}
                     />
 
@@ -562,60 +602,24 @@ const Get_involved = () => {
                     >
                       Interest: *
                     </label>
-                    <ul className="fix-radio">
-                      <div>
-                        <input
-                          className=" label_radio "
-                          type="radio"
-                          value="Volunteering"
-                          name="radio-group"
-                          id="flexCheckDefault_1"
-                          checked={selectedOption === "Volunteering"}
-                          onChange={handleRadioChange}
-                        />
-                        <label
-                          className="form-check-label label_radio"
-                          htmlFor="flexCheckDefault_1"
-                        >
-                          Volunteering
-                        </label>
-                      </div>
+                    <ul className="fix-radio" style={{ display: "grid" }}>
 
-                      <div className="form-check">
-                        <input
-                          className=" label_radio"
-                          type="radio"
-                          value="Partnering"
-                          name="radio-group"
-                          id="flexCheckDefault_2"
-                          checked={selectedOption === "Partnering"}
-                          onChange={handleRadioChange}
-                        />
-                        <label
-                          className="form-check-label label_radio "
-                          htmlFor="flexCheckDefault_2"
-                        >
-                          Partnering
-                        </label>
-                      </div>
+                      {interestList?.length ? interestList?.map((item, index) => (
 
-                      <div className="form-check">
-                        <input
-                          className=" label_radio "
-                          type="radio"
-                          value="Other"
-                          name="radio-group"
-                          id="flexCheckDefault_3"
-                          checked={selectedOption === "Other"}
-                          onChange={handleRadioChange}
-                        />
-                        <label
-                          className="form-check-label label_radio"
-                          htmlFor="flexCheckDefault_3"
-                        >
-                          Other
-                        </label>
-                      </div>
+                        <div className="event_intrest" key={index}>
+                          <input
+                            className=" label_radio "
+                            type="radio"
+                            value={item?.id}
+                            name="radio-group"
+                            id="flexCheckDefault_1"
+                            checked={selectedOption == item?.id ? true : false}
+                            onChange={handleRadioChange}
+                          />
+                          &nbsp;
+                          <label className="form-check-label label_radio" htmlFor="flexCheckDefault_1"> {item?.interest_type} </label>
+                        </div>
+                      )) : ""}
                     </ul>
 
                     <textarea
@@ -623,17 +627,28 @@ const Get_involved = () => {
                       id="Textarea6"
                       placeholder="Message:"
                       rows="3"
+                      value={msg}
                       onChange={(e) => setmsg(e.target.value)}
                     ></textarea>
 
                     <div className="text-center">
-                      <button
-                        type="submit"
-                        className="btn btn-primary donate_btn"
-                        onClick={postLearnMore}
-                      >
-                        SEND
-                      </button>
+                      {loaderStatus ? <Spinner
+                        style={{
+                          width: "30px",
+                          height: "30px",
+                          color: "#0a1c51fc",
+                        }}
+                        animation="border"
+                      />
+                        :
+                        <button
+                          type="submit"
+                          className="btn btn-primary donate_btn"
+                          onClick={postLearnMore}
+                        >
+                          SEND
+                        </button>
+                      }
                     </div>
                   </div>
                 </div>

@@ -45,14 +45,12 @@ const Events = () => {
   const router = useRouter();
 
   const [Images, setImages] = useState([]);
-  useEffect(() => {
-    console.log("Images", Images);
-  }, [Images]);
+  
 
   const adminMedia3 = async () => {
     try {
       const mediaResp3 = await eventPageSevices.adminMedia3("event");
-      console.log("IMAGE LIST", mediaResp3?.data?.data);
+    
       setImages(mediaResp3?.data?.data);
     } catch (err) {
       // Handle any other errors that may occur during the request
@@ -67,7 +65,6 @@ const Events = () => {
         (item) => item.page_name == "event"
       );
       setpromo(filterdata[0]);
-      console.log("filterdata[0]", filterdata[0]);
     } catch (err) {
       // Handle any other errors that may occur during the request
       console.log(err);
@@ -90,22 +87,11 @@ const Events = () => {
     fetchPromo();
   }, []);
 
-  useEffect(() => {
-    if (todayEvent.length > 0) {
-      // console.log("Today==>", todayEvent);
-    }
-  }, [todayEvent]);
-
-  useEffect(() => {
-    if (monthEvent.length > 0) {
-      // console.log("monthEvent==>", monthEvent);
-    }
-  }, [monthEvent]);
+  
 
   useEffect(() => {
     if (date != "" && date != null) {
-      // console.log("condition hit");
-
+      
       if (activeTabIndex == 1) {
         const weekFilter = weekEvent.filter((item) => item.date == date);
         if (trackFilter == null) {
@@ -114,10 +100,10 @@ const Events = () => {
             setWeekEvent(weekFilter);
           } else {
             setDate("");
-            showNotification("No Events on the selected date.");
+            showNotification("No Event Found");
           }
         } else {
-          showNotification("Please reset the date filter.");
+          showNotification("No Event Found");
         }
       }
 
@@ -129,10 +115,10 @@ const Events = () => {
             setMonthEvent(monthFilter);
           } else {
             setDate("");
-            showNotification("No Events on the selected date.");
+            showNotification("No Event Found");
           }
         } else {
-          showNotification("Please reset the date filter.");
+          showNotification("No Event Found");
         }
       }
     } else if (date == "") {
@@ -152,7 +138,7 @@ const Events = () => {
       const eventAttention = res.data.data.filter(
         (item) => item.page_name == "event"
       );
-      console.log("eventAttention", eventAttention[0].page_text);
+     
       setAttention(eventAttention[0].page_text);
     } catch (err) {
       // Handle any other errors that may occur during the request
@@ -183,7 +169,7 @@ const Events = () => {
       const newsResp = await eventPageSevices.getAllEventList(params);
 
       if (newsResp?.data?.success) {
-        console.log("showAllevents", newsResp?.data);
+        
         setTodayEvent(newsResp?.data?.today_events);
         setMonthEvent(newsResp?.data?.this_month_events);
         setWeekEvent(newsResp?.data?.this_week_events);
@@ -211,7 +197,6 @@ const Events = () => {
   useEffect(() => {
     if (value) {
       setDate(formatDateToYyyyMmDd(value));
-      console.log("date", date);
     }
   }, [value]);
 
@@ -236,8 +221,7 @@ const Events = () => {
 
   //function to manage Event hits
   const updateEventView = async (eventId, views) => {
-    console.log("eventId", eventId);
-    console.log("views", views);
+  
     try {
       let currentViews = views == null ? 0 : views;
 
@@ -563,7 +547,7 @@ const Events = () => {
                                   <b>Event Type:</b> {item?.event_type}
                                 </p>
                                 <p className="fst_event">
-                                  <b>Cost:</b> {item?.event_cost}{" "}
+                                  <b>Cost:</b> ${item?.event_cost}{" "}
                                   <span>
                                     {/* <i
                                     className="fa fa-plus-square-o"
@@ -654,7 +638,7 @@ const Events = () => {
                                   <b>Event Type:</b> {item?.event_type}
                                 </p>
                                 <p className="fst_event">
-                                  <b>Cost:</b> {item?.event_cost}{" "}
+                                  <b>Cost:</b> ${item?.event_cost}{" "}
                                   <span>
                                     {/* <i
                                     className="fa fa-plus-square-o"
@@ -745,7 +729,7 @@ const Events = () => {
                                   <b>Event Type:</b> {item?.event_type}
                                 </p>
                                 <p className="fst_event">
-                                  <b>Cost:</b> {item?.event_cost}{" "}
+                                  <b>Cost:</b> ${item?.event_cost}{" "}
                                   <span>
                                     {/* <i
                                     className="fa fa-plus-square-o"
@@ -829,7 +813,7 @@ const Events = () => {
                                   <b>Event Type:</b> {item?.event_type}
                                 </p>
                                 <p className="fst_event">
-                                  <b>Cost:</b> {item?.event_cost}{" "}
+                                  <b>Cost:</b> ${item?.event_cost}{" "}
                                   <span>
                                     {/* <i
                                     className="fa fa-plus-square-o"
@@ -917,7 +901,7 @@ const Events = () => {
                                   <b>Event Type:</b> {item?.event_type}
                                 </p>
                                 <p className="fst_event">
-                                  <b>Cost:</b> {item?.event_cost}{" "}
+                                  <b>Cost:</b> ${item?.event_cost}{" "}
                                   <span>
                                     {/* <i
                                       className="fa fa-plus-square-o"

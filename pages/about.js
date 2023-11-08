@@ -157,9 +157,9 @@ const About = () => {
                               ? process.env.SITE_URL + data2?.section_media
                               : "demo-video.mp4"
                           }
-                          controls
-                          playing={true}
-                          muted={true}
+                          controls={true}
+                          playing={false}
+                          muted={false}
                           width={"100%"}
                         />
                       ) : data2?.section_media_type == "image" ? (
@@ -183,6 +183,7 @@ const About = () => {
                           }
                           controls={true}
                           playing={false}
+                          autoplay={false}
                           muted={false}
                           width={"100%"}
                           height={"50vh"}
@@ -851,9 +852,9 @@ const About = () => {
                       {" "}
                       <ReactPlayer
                         url={workforceEquityData[1]?.media}
-                        controls
-                        playing={true}
-                        muted={true}
+                        controls={true}
+                          playing={false}
+                          muted={false}
                         width="100%"
                         height={300}
                       />
