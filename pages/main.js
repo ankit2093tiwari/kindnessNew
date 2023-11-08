@@ -15,6 +15,7 @@ import {
   checkImageOrVideoFromUrl,
   getFormatedDate,
   randomKey,
+  formatDate
 } from "@/store/library/utils";
 import showNotification from "@/helpers/show_notification";
 import { Spinner } from "react-bootstrap";
@@ -54,14 +55,7 @@ function MainPage({ data }) {
 
   //function to handle facebook share
   function handlefbshare(url, quote, description, image, domain) {
-    console.log(
-      "url, quote, description, image, domain",
-      url,
-      quote,
-      description,
-      image,
-      domain
-    );
+
     setogURL(url);
     setogDesc(description);
     setogImg(image);
@@ -172,7 +166,7 @@ function MainPage({ data }) {
 
       const resp = await homePageService.homePageDescAccomp(params);
       if (resp?.data?.success) {
-        // console.log("slider", resp?.data?.data);
+      
         setdata3(resp?.data?.data);
       } else {
         setdata3([]);
@@ -191,15 +185,10 @@ function MainPage({ data }) {
 
       if (newsResp?.data?.success) {
         let respData = newsResp?.data?.data?.reverse();
-        let currentDate = getFormatedDate(new Date(), "Y-MM-D");
-        console.log("respData", respData);
 
-        let campignNews = respData?.filter(
-          (item) =>
-            item?.sectionName == "camp_news" &&
-            item?.expire_date > currentDate &&
-            item?.active == "1"
-        );
+        let currentDate = getFormatedDate(new Date(), "YYYY-MM-DD");      
+
+        let campignNews = respData?.filter((item) => item?.sectionName == "camp_news" && item?.expire_date > currentDate && item?.active == "1");
 
         let SponserPartner = respData?.filter(
           (item) => item?.sectionName == "spon_partner" && item?.active == "1"
@@ -212,6 +201,7 @@ function MainPage({ data }) {
           );
 
           setNewsSectionFirstData(firstNewsData[0]);
+          console.log("campignNews =====", campignNews);
           let AllNewsData = campignNews?.filter(
             (item) => item?.featuredItem != "1"
           );
@@ -255,9 +245,7 @@ function MainPage({ data }) {
 
       if (response?.data?.success) {
         let dataResp = response?.data?.data;
-        let meetExeutiveData = dataResp.filter(
-          (item) => item.sectionName == "MeetExecutive"
-        );
+        let meetExeutiveData = dataResp.filter((item) => item.sectionName == "MeetExecutive");
 
         setMeetExeutive(meetExeutiveData);
       } else {
@@ -272,23 +260,14 @@ function MainPage({ data }) {
     setToggle(!toggle);
   };
 
-  useEffect(() => {
-    console.log("newsSectionFirstData", newsSectionFirstData);
-  }, [newsSectionFirstData]);
-  useEffect(() => {
-    // console.log("....>>", newsURL);
-  }, [newsURL]);
-
   async function fetchFeaturedComment(params) {
     try {
       const resp = await newsPageService.getFilteredComments(params);
 
-      const sortedComments = resp.data.data;
-      console.log("sortedComments", sortedComments);
-      const featuredComments = sortedComments.filter(
-        (item) => item.post_id == newsSectionFirstData.id
-      );
-      console.log("Featured comments", featuredComments);
+      const sortedComments = resp?.data?.data;
+
+      const featuredComments = sortedComments.filter((item) => item.post_id == newsSectionFirstData.id);
+
       setfeaturedCmts(featuredComments);
     } catch (error) {
       console.log(error);
@@ -297,26 +276,20 @@ function MainPage({ data }) {
   return (
     <>
       <Head>
-        <title>Kindness Campaign</title>
+        <title>Home - Kindness Campaign</title>
         <meta name="description" content="Kindness Campaign" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <meta property="og:locale" content="en_US" />
         <meta property="og:type" content="website" />
-        <meta
-          property="og:title"
-          content={`Kindness Campaign News |${ogTitle}`}
-        />
+        <meta property="og:title" content={`Kindness Campaign News | ${ogTitle}`} />
         <meta property="og:description" content={ogDesc} />
         <meta property="og:url" content={ogURL} />
         <meta property="og:site_name" content="Kindness Campaign" />
-        <meta
-          property="article:modified_time"
-          content="2023-09-18T05:45:43+00:00"
-        />
+        <meta property="article:modified_time" content="2023-09-18T05:45:43+00:00" />
         <meta property="og:image" content={ogImg} />
-        <meta property="og:image:width" content="1024" />
-        <meta property="og:image:height" content="413" />
+        <meta property="og:image:width" content="300" />
+        <meta property="og:image:height" content="300" />
         <meta property="og:image:type" content="image/png" />
         <meta name="twitter:card" content={ogImg} />
       </Head>
@@ -345,11 +318,7 @@ function MainPage({ data }) {
                   <div className="">
                     {staticContent?.imageType == "video" ? (
                       <ReactPlayer
-                        url={
-                          staticContent?.image
-                            ? process.env.SITE_URL + staticContent?.image
-                            : "demo-video.mp4"
-                        }
+                        url={staticContent?.image ? process.env.SITE_URL + staticContent?.image : "demo-video.mp4"}
                         controls={true}
                         autoplay={false}
                         muted={false}
@@ -366,7 +335,6 @@ function MainPage({ data }) {
                         height={100}
                         width={100}
                         alt="video-banner"
-                        style={{}}
                       />
                     )}
                   </div>
@@ -396,7 +364,6 @@ function MainPage({ data }) {
                         height={100}
                         width={100}
                         alt="video-banner"
-                        style={{}}
                       />
                     )}
                   </div>
@@ -427,7 +394,6 @@ function MainPage({ data }) {
                         height={100}
                         width={100}
                         alt="video-banner"
-                        style={{}}
                       />
                     )}
                   </div>
@@ -489,13 +455,7 @@ function MainPage({ data }) {
               <div className="container">
                 <h2 className="text-center">
                   {" "}
-                  <Link
-                    target="_blank"
-                    href={`${staticContent?.impact_link
-                      ? staticContent?.impact_link
-                      : "#!"
-                      }`}
-                  >
+                  <Link target="_blank" href={`${staticContent?.impact_link ? staticContent?.impact_link : "#!"}`} >
                     <u className="decriptions_wrap">
                       CLICK HERE for detail decriptions of our IMPACTS
                     </u>
@@ -511,11 +471,7 @@ function MainPage({ data }) {
             <div className="row">
               <div className="col-md-12 col-lg-5 align-self-center">
                 <Image
-                  src={
-                    staticContent?.section_media
-                      ? process.env.API_URL + staticContent?.section_media
-                      : "/images/Meet-OUR-Founder.png"
-                  }
+                  src={staticContent?.section_media ? process.env.API_URL + staticContent?.section_media : "/images/Meet-OUR-Founder.png"}
                   width={0}
                   height={350}
                   alt="Meet-OUR-Founder_2"
@@ -563,7 +519,7 @@ function MainPage({ data }) {
             </div>
           </div>
         </section>
-
+      
         {newsSectionFirstData?.title ? (
           <section className="news_title_one ">
             <div
@@ -587,7 +543,7 @@ function MainPage({ data }) {
                     sizes="100vw"
                     style={{ width: "100%", height: "auto" }}
                   /> */}
-                  {newsSectionFirstData.media_type == "image" ? (
+                  {newsSectionFirstData?.media_type == "image" ? (
                     <Image
                       src={
                         newsSectionFirstData?.media
@@ -613,7 +569,7 @@ function MainPage({ data }) {
                     />
                   ) : (
                     <ReactPlayer
-                      url={newsSectionFirstData?.media}
+                      url={`${newsSectionFirstData?.media}?showinfo=0&enablejsapi=1&origin=http://localhost:3000`}
                       playing={false}
                       controls={true}
                       muted={false}
@@ -697,34 +653,13 @@ function MainPage({ data }) {
                           &nbsp;&nbsp;
                           <span className="textexpend">
                             <FacebookShareButton
-                              url={`https://kindness-omega.vercel.app/news/145/`}
+                              url={`${process.env.BASE_LIVE_URL}news/${newsSectionFirstData?.id}`}
                               quote={newsSectionFirstData?.title}
-                              hashtag={`#kindnesscampaign, #${newsSectionFirstData?.title}`}
+                              hashtag={`#kindnesscampaign ${newsSectionFirstData?.title}`}
                             >
-                              <i
-                                className="fa fa-facebook"
-                                aria-hidden="true"
-                                onClick={() =>
-                                  handlefbshare(
-                                    `${process.env.BASE_LIVE_URL}news/${newsSectionFirstData?.id}`,
-                                    newsSectionFirstData?.title,
-                                    newsSectionFirstData?.news_artical,
-                                    process.env.SITE_URL +
-                                    newsSectionFirstData?.media,
-                                    process.env.BASE_LIVE_URL
-                                  )
-                                }
-                              />
+                              <i className="fa fa-facebook" aria-hidden="true" />
                               &nbsp;
                             </FacebookShareButton>
-
-                            {/* <Link href="#">
-                              <i
-                                className="fa fa-youtube-play"
-                                aria-hidden="true"
-                              ></i>{" "}
-                              &nbsp;
-                            </Link> */}
 
                             <TwitterShareButton
                               url={`${process.env.BASE_LIVE_URL}/news/${newsSectionFirstData?.id}`}
@@ -741,20 +676,10 @@ function MainPage({ data }) {
                               description={newsSectionFirstData?.news_artical}
                             >
                               {" "}
-                              <i
-                                className="fa fa-linkedin-square"
-                                aria-hidden="true"
-                              ></i>{" "}
+                              <i className="fa fa-linkedin-square" aria-hidden="true" ></i>{" "}
                               &nbsp;
                             </LinkedinShareButton>
 
-                            {/* <Link href="#">
-                              <i
-                                className="fa fa-instagram"
-                                aria-hidden="true"
-                              ></i>
-                              &nbsp;
-                            </Link> */}
                           </span>
                         </a>
                       </h3>
