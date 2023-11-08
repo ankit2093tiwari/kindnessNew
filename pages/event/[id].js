@@ -36,7 +36,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
@@ -53,7 +53,7 @@ export async function getStaticProps(context) {
   const filter_data = data2.data;
   // const filter_data = data2.data.filter(element => element.sectionName == "camp_news")
   return {
-    props: { filter_data },
+    props: { filter_data },revalidate: 10
   };
 }
 
@@ -164,7 +164,7 @@ const singleEventData = ({ filter_data }) => {
       const eventAttention = res.data.data.filter(
         (item) => item.page_name == "event"
       );
-      console.log("eventAttention", eventAttention[0].page_text);
+     
       setAttention(eventAttention[0].page_text);
     } catch (err) {
       // Handle any other errors that may occur during the request
@@ -195,7 +195,7 @@ const singleEventData = ({ filter_data }) => {
       const newsResp = await eventPageSevices.getSingleEventData(params);
       if (newsResp?.data?.success) {
         let respData = newsResp?.data?.data[0];
-        console.log("single event", respData);
+      
         setEventData(respData);
         setIsSubmittingLoader(false);
       }

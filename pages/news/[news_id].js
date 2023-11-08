@@ -58,7 +58,7 @@ export async function getStaticProps(context) {
   const data = data1.data[0];
 
   return {
-    props: { data, Newsid: context.params.news_id },
+    props: { data, Newsid: context.params.news_id },revalidate: 10
   };
 }
 
