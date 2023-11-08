@@ -36,7 +36,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
@@ -53,7 +53,7 @@ export async function getStaticProps(context) {
   const filter_data = data2.data;
   // const filter_data = data2.data.filter(element => element.sectionName == "camp_news")
   return {
-    props: { filter_data },
+    props: { filter_data },,revalidate: 10
   };
 }
 
