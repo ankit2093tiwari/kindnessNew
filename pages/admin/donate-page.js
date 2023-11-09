@@ -857,7 +857,7 @@ const DonatePage = () => {
                       {donationList?.map((item, key) => (
                         <tr key={key}>
                           <td>{key + 1} </td>
-                          <td>{item.gift_amt}</td>
+                          <td>{ item?.gift_amt ? "$"+ item?.gift_amt: ""}</td>
                           <td>{item.name}</td>
                           <td>{item.email}</td>
                           <td>{item.phone_number}</td>
@@ -874,7 +874,7 @@ const DonatePage = () => {
 
                   <div className="text-right">
                     <p>
-                      <b>Donation Total = {total}</b>
+                      <b>Donation Total = $ {total}</b>
                     </p>
                   </div>
                 </div>
