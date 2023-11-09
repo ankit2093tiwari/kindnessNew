@@ -617,7 +617,13 @@ function MainPage({ data }) {
                   <div className="row mt-4 icons">
                     <div className="col-md-2">
                       <h3 className="align-self-center">
-                       <Link href={"/news/"+ newsSectionFirstData?.id} target="_blank">
+                      
+                     <Link href={"/news/" + newsSectionFirstData?.id} target="_blank" onClick={() =>
+                        updateNewsView(
+                          newsSectionFirstData?.id,
+                          newsSectionFirstData?.view
+                        )
+                      }>
                           <span className="share_wrap">
                             <i className="fa fa-comment" aria-hidden="true" />
                             {featuredCmts?.length > 0
