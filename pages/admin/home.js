@@ -118,6 +118,10 @@ const Home = () => {
   //function to update the table data
   function editFieldData(id, index, sectionName) {
     if (sectionName == "DescriptionAccomplishment") {
+      let obj = descriptionAccomplishment?.find(
+        (newRowListItem) => newRowListItem?.edit === true
+      );
+        if(obj?.id == undefined){
       let data = descriptionAccomplishment[index];
       data.edit = true;
 
@@ -128,9 +132,17 @@ const Home = () => {
       setEditDesActive(parseInt(data?.active) ? true : false);
       setEditDesService(data?.column_2);
       setEditDesYear(data?.impactYear);
-    }
+    }else {
+        showNotification("Please Save Last edited field", "Error");
+      }}
 
     if (sectionName == "MeetExecutive") {
+      let obj = meetExeutive?.find(
+        (newRowListItem) => newRowListItem?.edit === true
+      );
+      if(obj?.id ==undefined){
+
+
       let data = meetExeutive[index];
       data.edit = true;
 
@@ -143,9 +155,17 @@ const Home = () => {
       setEditExeMediaPreview(process.env.SITE_URL + data?.media);
       setEditExeDes(data?.description);
       setEditExeActive(parseInt(data?.active) ? true : false);
-    }
+    } if(obj?.id !=undefined) {
+      showNotification("Please Save Last edited field", "Error");
+    }}
 
     if (sectionName == "CampNews") {
+
+      let obj = newsSectionData?.find(
+        (newRowListItem) => newRowListItem?.edit === true
+      );
+
+      if (obj?.id == undefined){
       let data = newsSectionData[index];
       data.edit = true;
 
@@ -159,8 +179,15 @@ const Home = () => {
       setUpdateActive(parseInt(data?.active) ? true : false);
       setFeaturedActive(parseInt(data?.featuredItem) ? true : false);
       setUpdateCampSection(data?.news_artical);
-    }
+    } if(obj?.id !=undefined) {
+      showNotification("Please Save Last edited field", "Error");
+    }}
+
     if (sectionName == "SponsorPartner") {
+      let obj = sponsorPartnerData?.find(
+        (newRowListItem) => newRowListItem?.edit === true
+      );
+      if (obj?.id == undefined){
       let data = sponsorPartnerData[index];
       data.edit = true;
 
@@ -173,7 +200,9 @@ const Home = () => {
         data?.media ? process.env.SITE_URL + data?.media : "/no-img.jpg"
       );
       setEditSponActive(parseInt(data?.active) ? true : false);
-    }
+    } if(obj?.id !=undefined) {
+      showNotification("Please Save Last edited field", "Error");
+    }}
 
     // showNotification("Item Updated", "Success");
   }
@@ -934,6 +963,9 @@ const Home = () => {
             setCampMedia(null);
             setCampMediaPreview(null);
             setCampSection("");
+            setCampTitle("")
+            
+            
           } else {
             setIsSubmitingLoader(false);
             showNotification(response.data.message, "Error");
@@ -989,6 +1021,7 @@ const Home = () => {
             setCampMedia(null);
             setCampMediaPreview(null);
             setCampSection("");
+            setCampTitle("");
           } else {
             setIsSubmitingLoader(false);
             showNotification(response.data.message, "Error");
@@ -1151,7 +1184,7 @@ const Home = () => {
   };
 
   const setDateFormate = (data) => {
-    let date = getFormatedDate(data, "YYYY-MM-DD");
+    let date = getFormatedDate(data, "MM/DD/YYYY");
     setCampDate(date);
   };
 
@@ -1913,7 +1946,9 @@ const Home = () => {
                                       />
                                     </td>
                                     <td>
-                                      <textarea
+                                      <input
+                                        type="text"
+                                       
                                         className="form-control "
                                         placeholder="Type here"
                                         id="floatingTextarea"
@@ -1921,7 +1956,7 @@ const Home = () => {
                                         onChange={(e) =>
                                           setEditExeDes(e?.target?.value)
                                         }
-                                      ></textarea>
+                                      ></input>
                                     </td>
 
                                     <td>
@@ -2249,7 +2284,7 @@ const Home = () => {
                                   {item?.edit ? (
                                     <>
                                       <td></td>
-                                      <td>
+                                      <td >
                                         <input
                                           type="text"
                                           name="title"
@@ -2257,7 +2292,7 @@ const Home = () => {
                                           onChange={(e) =>
                                             settext1(e?.target?.value)
                                           }
-                                        />
+                                         />
                                       </td>
                                       <td>
                                         {toggleNewsYT ? (
@@ -2391,7 +2426,7 @@ const Home = () => {
                                             setupdateDate(
                                               getFormatedDate(
                                                 date,
-                                                "YYYY-MM-DD"
+                                                "MM/DD/YYYY"
                                               )
                                             )
                                           }
@@ -2482,7 +2517,7 @@ const Home = () => {
                                         {item?.expire_date &&
                                           getFormatedDate(
                                             item?.expire_date,
-                                            "DD-MM-YYYY"
+                                            "MM/DD/YYYY"
                                           )}
                                       </td>
                                       <td>
@@ -2938,7 +2973,7 @@ const Home = () => {
                                   <td>
                                     {getFormatedDate(
                                       item?.created_at,
-                                      "DD-MM-YYYY"
+                                      "MM/DD/YYYY"
                                     )}
                                   </td>
                                   <td>
