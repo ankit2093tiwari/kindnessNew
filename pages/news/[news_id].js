@@ -205,11 +205,11 @@ function NewsDetailPage({ data, Newsid }) {
           <meta name="description" content={data?.news_artical} />
 
           <meta property="og:type" content="website" />
-          <meta property="og:url" content={process.env.BASE_LIVE_URL + "news/" + data?.id} />
-          <meta property="og:title" content={data?.title} />
-          <meta property="og:description" content={data.news_artical} />
-          <meta property="og:image" content={process.env.SITE_URL + data?.media} />
-
+          <meta property="og:url" content={process.env.BASE_LIVE_URL + "news/" + data?.id} key="og-url" />
+          <meta property="og:title" content={data?.title} key="og-title" />
+          <meta property="og:description" content={data.news_artical} key="og-desc"/>
+          <meta property="og:image" content={process.env.SITE_URL + data?.media} key="og-image" />
+          
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content={process.env.BASE_LIVE_URL + "news/" + data?.id} />
           <meta property="twitter:title" content={data?.title} />
