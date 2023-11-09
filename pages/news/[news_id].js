@@ -58,49 +58,7 @@ export async function getStaticProps(context) {
   const data = data1.data[0];
 
   return {
-    props: { data, Newsid: context.params.news_id, openGraphData: [
-      {
-        property: "og:image",
-        content: "https://glievsbwngosqvrxtupy.supabase.co/storage/v1/object/public/event-banners/Jul%208%20Darkest%20Hour%20LONG.jpeg?t=2022-06-28T21%3A47%3A43.910Z",
-        key: "ogimage",
-      },
-      {
-        property: "og:image:width",
-        content: "400",
-        key: "ogimagewidth",
-      },
-      {
-        property: "og:image:height",
-        content: "300",
-        key: "ogimageheight",
-      },
-      {
-        property: "og:url",
-        content: `http://foobar.com/events`,
-        key: "ogurl",
-      },
-      {
-        property: "og:image:secure_url",
-        content:
-          "https://glievsbwngosqvrxtupy.supabase.co/storage/v1/object/public/event-banners/Jul%208%20Darkest%20Hour%20LONG.jpeg?t=2022-06-28T21%3A47%3A43.910Z",
-        key: "ogimagesecureurl",
-      },
-      {
-        property: "og:title",
-        content: "Hey hey",
-        key: "ogtitle",
-      },
-      {
-        property: "og:description",
-        content: "Ima description",
-        key: "ogdesc",
-      },
-      {
-        property: "og:type",
-        content: "website",
-        key: "website",
-      },
-    ] },revalidate: 10
+    props: { data, Newsid: context.params.news_id }, revalidate: 10
   };
 }
 
@@ -207,9 +165,9 @@ function NewsDetailPage({ data, Newsid }) {
           <meta property="og:type" content="website" />
           <meta property="og:url" content={process.env.BASE_LIVE_URL + "news/" + data?.id} key="og-url" />
           <meta property="og:title" content={data?.title} key="og-title" />
-          <meta property="og:description" content={data.news_artical} key="og-desc"/>
+          <meta property="og:description" content={data.news_artical} key="og-desc" />
           <meta property="og:image" content={process.env.SITE_URL + data?.media} key="og-image" />
-          
+
           <meta property="twitter:card" content="summary_large_image" />
           <meta property="twitter:url" content={process.env.BASE_LIVE_URL + "news/" + data?.id} />
           <meta property="twitter:title" content={data?.title} />
