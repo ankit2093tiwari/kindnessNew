@@ -99,7 +99,8 @@ section {
 .p-5 {
   padding: 1rem !important;
 }
-
+.commentsPage {
+}
 /* arjit css */
 .table td {
   border: 1px solid #000;
@@ -3117,7 +3118,9 @@ button-1 {
   font-family: "Maven Pro", sans-serif;
 }
 
-
+.about_video_1 {
+  /* border: 3px solid #88b6de; */
+}
 
 .about_wrap {
   font-size: 13pt;
