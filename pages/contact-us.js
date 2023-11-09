@@ -20,7 +20,7 @@ const Events = () => {
   }, []);
 
   const contactPageData = async () => {
-    setIsSubmitingLoader(true)
+    setIsSubmitingLoader(true);
     try {
       const resp = await contactPageSevices.contactUsGet();
       setdata(resp?.data?.data);
@@ -34,7 +34,8 @@ const Events = () => {
   const submitContactForm = async (e) => {
     setIsSubmitingLoader(true)
     try {
-      const formData = new FormData();
+      if (email != "" && name != "" && message != "") {
+        const formData = new FormData();
 
       formData.append("email", email);
       formData.append("name", name);
@@ -44,24 +45,28 @@ const Events = () => {
       const response = await contactPageSevices.sendContactFormData(formData);
       console.log("FORMpostRESP", response);
 
-      if (response?.status == 200) {
-        console.log("if RAN");
+        if (response?.status == 200) {
+          setIsSubmitingLoader(false);
 
         setEmail("");
         setName("");
         setMessage("");
 
-        showNotification(response?.data.message, "Success");
+          showNotification(response?.data.message, "Success");
+        }
+      } else {
+        showNotification("Please fill all the fields", "Error");
       }
-        // showNotification("Form sent successfully", "Success");
+      // showNotification("Form sent successfully", "Success");
       //  else {
       //   console.log("else RAN");
       //   showNotification("Error");
       // }
     } catch (error) {
+      setIsSubmitingLoader(false);
       console.error(error);
     }
-    setIsSubmitingLoader(false)
+    setIsSubmitingLoader(false);
   };
 
   return (
@@ -73,24 +78,22 @@ const Events = () => {
       </Head>
 
       <Layout title={"Contact Us"}>
-      {isSubmitingLoader ? (
-            <div className="overlay">
-              <div className="spinner-container">
-                <Spinner
-                  className="loaderSpinnerPiyush"
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    color: "#0a1c51fc",
-                  }}
-                  animation="border"
-                />
-              </div>
+        {isSubmitingLoader ? (
+          <div className="overlay">
+            <div className="spinner-container">
+              <Spinner
+                className="loaderSpinnerPiyush"
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  color: "#0a1c51fc",
+                }}
+                animation="border"
+              />
             </div>
-          ) : null}
+          </div>
+        ) : null}
         <section id="contact" className="contact_us_wrap hero">
-        
-       
           <div className="container">
             <div className="row">
               <div className="col-md-12 col-lg-5 align-self-center wow fadeInUp over_contact_wrap">

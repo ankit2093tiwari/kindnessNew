@@ -24,7 +24,7 @@ import { AiFillEye } from "react-icons/ai";
 import { useRouter } from "next/router";
 
 const Events = () => {
-  const [value, onChange] = useState(new Date());
+  const [value, onChange] = useState(null);
 
   const [data, setdata] = useState([]);
 
@@ -91,7 +91,22 @@ const Events = () => {
 
   useEffect(() => {
     if (date != "" && date != null) {
-      
+      // console.log("condition hit");
+
+      if (activeTabIndex == 0) {
+        if (trackFilter == null) {
+          if (date) {
+            console.log("Date in tab 1", date);
+            showNotification(
+              "Please select week or month events to filter. Nothing to filter in today's events"
+            );
+          }
+        } else {
+          setDate("");
+          showNotification("Please reset the date filter.");
+        }
+      }
+
       if (activeTabIndex == 1) {
         const weekFilter = weekEvent.filter((item) => item.date == date);
         if (trackFilter == null) {
@@ -319,7 +334,9 @@ const Events = () => {
 
                     <div className="calender">
                       <Calendar
-                        onChange={onChange}
+                        onChange={(selectedDate) => {
+                          onChange(selectedDate);
+                        }}
                         value={value}
                         minDate={new Date()}
                       />
@@ -347,9 +364,8 @@ const Events = () => {
                           }
                           controls={true}
                           playing={false}
-                          muted={false}
+                          muted={true}
                           width={"100%"}
-                          height={"100%"}
                         />
                       </div>
                     </div>

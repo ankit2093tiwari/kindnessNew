@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ReactPlayer from "react-player";
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,6 +9,7 @@ import { getDonatePageSevices } from "../../store/services/donatePageService";
 import { homePageService } from "@/store/services/homepageServices";
 import { getFormatedDate } from "@/store/library/utils";
 import showNotification from "@/helpers/show_notification";
+import { BsYoutube, BsFileEarmarkImage } from "react-icons/bs";
 
 import Link from "next/link";
 import { Spinner } from "react-bootstrap";
@@ -34,6 +36,19 @@ const DonatePage = () => {
   const [studentPdfData, setStudentPdfData] = useState("");
   const [donationList, setdonationList] = useState([]);
   const [downloadLoader, setDownloadLoader] = useState(false);
+  const [ToggleYoutube, setToggleYoutube] = useState(true);
+  const [youtubeLinkCampHeader, setyoutubeLinkCampHeader] = useState("");
+  const [total, settotal] = useState(0);
+
+  useEffect(() => {
+    if (donationList.length > 0) {
+      donationList.map((item) => {
+        {
+          settotal((prevState) => prevState + parseInt(item?.gift_amt));
+        }
+      });
+    }
+  }, [donationList]);
 
   const downloadDonorList = async () => {
     try {
@@ -100,15 +115,20 @@ const DonatePage = () => {
   };
 
   async function updateData(data) {
-    setIsSubmitingLoader(true)
+    setIsSubmitingLoader(true);
     if (data == "section1") {
       const formData = new FormData();
       formData.append("pageName", "donate");
       formData.append("donateHeader", header);
-      formData.append("donateMedia", img);
-
+      if (ToggleYoutube == false) {
+        formData.append("donateMedia", youtubeLinkCampHeader);
+      } else {
+        formData.append("donateMedia", img);
+      }
       try {
         const resp = await getDonatePageSevices.updateDonateSection(formData);
+        donationMediaPreviewImages();
+        dynamicData();
         showNotification("Data Saved Successfully", "Success");
       } catch (err) {
         // Handle any other errors that may occur during the request
@@ -274,7 +294,212 @@ const DonatePage = () => {
               </div>
             </div>
             <br /> <br />
-            <div className="container">
+            <div className="mediaSection">
+              {ToggleYoutube ? ( //custom file section start
+                <div className="container">
+                  <div className="row">
+                    <div className="col-md-4">
+                      <label className="form-label-1" htmlFor="typeText">
+                        Donate Media
+                      </label>
+                      <br />
+                      {donationStaticField?.youtube_status == "1" ? (
+                        <ReactPlayer
+                          url={donationStaticField.image}
+                          controls
+                          playing={false}
+                          muted={false}
+                          width="150px"
+                          height="100px"
+                        />
+                      ) : (
+                        <>
+                          {donationStaticField.section_media == "video" ? (
+                            <>
+                              <ReactPlayer
+                                url={
+                                  process.env.SITE_URL +
+                                  donationStaticField.image
+                                }
+                                controls
+                                playing={false}
+                                muted={false}
+                                width="150px"
+                                height="100px"
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <Image
+                                src={
+                                  donationStaticField?.image
+                                    ? process.env.SITE_URL +
+                                      donationStaticField?.image
+                                    : "/no-img.jpg"
+                                }
+                                width={80}
+                                height={80}
+                                alt="Picture of the author"
+                              />
+                            </>
+                          )}
+                        </>
+                      )}
+                    </div>
+
+                    <div className="col-md-4">
+                      <input
+                        type="file"
+                        accept="middleImage/*"
+                        // onChange={(e) => {
+                        //   if (e.target.files[0]?.size < 6 * 1024 * 1024) {
+                        //     setimg(e.target.files[0]);
+                        //   } else {
+                        //     showNotification(
+                        //       "File size exceeds 6MB. Please choose a smaller file",
+                        //       "Error"
+                        //     );
+
+                        //     // Clear the file input
+                        //     e.target.value = null;
+                        //   }
+                        // }}
+                        onChange={(e) => {
+                          const img = e?.target?.files[0];
+
+                          const fileName = img.name.toLowerCase();
+
+                          // Check if the file has an image extension
+                          if (
+                            /\.(jpg|jpeg|png|gif|webp|tiff|bmp)$/.test(fileName)
+                          ) {
+                            if (img.size > 6 * 1024 * 1024) {
+                              e.target.value = null;
+                              showNotification(
+                                "Image size exceeds 6MB. Please choose a smaller image.",
+                                "Error"
+                              );
+                              return;
+                            } else {
+                              setimg(e?.target?.files[0]);
+                            }
+                          } else if (
+                            /\.(mp4|mov|avi|wmv|mkv|flv|Ff4v|swf|webm)$/.test(
+                              fileName
+                            )
+                          ) {
+                            if (img.size > 100 * 1024 * 1024) {
+                              e.target.value = null;
+                              showNotification(
+                                "Video size exceeds 100MB. Please choose a smaller video.",
+                                "Error"
+                              );
+                              return;
+                            } else {
+                              setimg(e?.target?.files[0]);
+                            }
+                          } else if (
+                            /\.(pdf|doc|docx|xls|xlsx|ppt|pptx|txt|csv|html|jsx|php|js)$/.test(
+                              fileName
+                            )
+                          ) {
+                            e.target.value = null;
+                            showNotification("Unsupported File type.", "Error");
+                            return;
+                          }
+                        }}
+                      />
+                      <span className="mbSpan">
+                        Max file size for image is 6 MB , video 100 MB
+                      </span>
+                    </div>
+
+                    <div className="col-md-4">
+                      <div className="text-right">
+                        <button
+                          type="button"
+                          className="btn btn btn-outline-primary align-bottom"
+                          onClick={() => {
+                            updateData("section1");
+                          }}
+                        >
+                          Update Site
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <BsYoutube className="youTubeLogo" />
+                    <span
+                      className="mx-4 custom-youtube-toggleLink"
+                      onClick={() => {
+                        ToggleYoutube
+                          ? setToggleYoutube(false)
+                          : setToggleYoutube(true);
+                      }}
+                    >
+                      YouTube Link
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                //youtube section start
+                <div className="container">
+                  <div className="row">
+                    <div className="col-md-3">
+                      <label className="form-label" htmlFor="typeText">
+                        Youtube Media
+                      </label>
+                    </div>
+                    <div className="col-md-3">
+                      {youtubeLinkCampHeader != ""
+                        ? showVideo(youtubeLinkCampHeader)
+                        : showVideo("no-video")}
+                    </div>
+                    <div className="col-md-3">
+                      <input
+                        className="form-control"
+                        type="text"
+                        value={youtubeLinkCampHeader}
+                        onChange={(e) => {
+                          const inputValue = e.target.value.trim();
+                          setyoutubeLinkCampHeader(inputValue);
+                        }}
+                      />
+                      <span className="mbSpan">Add YouTube video link.</span>
+                    </div>
+
+                    <div className="col-md-3">
+                      <button
+                        type="button"
+                        className="btn btn-outline-primary"
+                        onClick={() => {
+                          updateData("section1");
+                        }}
+                      >
+                        Update Site
+                      </button>
+                    </div>
+                  </div>
+                  <p className="text-center my-4">OR</p>
+                  <div className="text-center">
+                    <BsFileEarmarkImage className="youTubeLogo" />
+                    <span
+                      className="mx-4 custom-youtube-toggleLink"
+                      onClick={() => {
+                        ToggleYoutube
+                          ? setToggleYoutube(false)
+                          : (setToggleYoutube(true),
+                            setyoutubeLinkCampHeader(""));
+                      }}
+                    >
+                      Custom Video
+                    </span>
+                  </div>
+                </div>
+              )}
+            </div>
+            {/* <div className="container">
               <div className="row">
                 <div className="col-md-4">
                   <label className="form-label-1" htmlFor="typeText">
@@ -331,7 +556,7 @@ const DonatePage = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </section>
 
           <section className="panel important">
@@ -640,7 +865,7 @@ const DonatePage = () => {
                           <td>{item.gift_note}</td>
                           <td>{item.what_ins_you_text}</td>
                           <td>
-                            {getFormatedDate(item.created_at, "YYYY-MM-DD")}{" "}
+                            {getFormatedDate(item.created_at, "MM/DD/YYYY")}{" "}
                           </td>
                         </tr>
                       ))}
@@ -649,7 +874,7 @@ const DonatePage = () => {
 
                   <div className="text-right">
                     <p>
-                      <b>Donation Total = $556.50</b>
+                      <b>Donation Total = {total}</b>
                     </p>
                   </div>
                 </div>
@@ -865,5 +1090,23 @@ const DonatePage = () => {
     </>
   );
 };
+
+function showVideo(fileSrc) {
+  return (
+    <>
+      {fileSrc == "no-video" ? (
+        <Image src="/no-img.jpg" width={80} height={80} alt="video-banner" />
+      ) : (
+        <ReactPlayer
+          url={fileSrc}
+          playing={true}
+          muted={true}
+          width={"50%"}
+          height={80}
+        />
+      )}
+    </>
+  );
+}
 
 export default DonatePage;

@@ -715,13 +715,13 @@ const EventPage = () => {
       const eventListresp = await eventPageSevices.eventList();
       console.log("eventListresp", eventListresp);
       if (eventListresp.data.success) {
-        setIsSubmitingLoader(true);
+        setIsSubmitingLoader(false);
         seteventList(eventListresp?.data?.data);
       } else {
-        setIsSubmitingLoader(true);
+        setIsSubmitingLoader(false);
       }
     } catch (err) {
-      setIsSubmitingLoader(true);
+      setIsSubmitingLoader(false);
       // Handle any other errors that may occur during the request
       console.log(err);
     }

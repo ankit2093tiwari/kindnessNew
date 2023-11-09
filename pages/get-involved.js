@@ -674,7 +674,7 @@ const Get_involved = () => {
 
                     <div className="container">
                       <div className="about_video_2">
-                        {data2?.imageType == "video" ? (
+                        {data2?.section_media == "video" ? (
                           <ReactPlayer
                             url={
                               data2?.image
@@ -688,17 +688,34 @@ const Get_involved = () => {
                             height={300}
                           />
                         ) : (
-                          <Image
-                            src={
-                              data2?.image
-                                ? process.env.SITE_URL + data2?.image
-                                : "/bg-video-banner.jpg"
-                            }
-                            height={300}
-                            width={800}
-                            alt="video-banner"
-                            style={{ width: "100%", objectFit: "cover" }}
-                          />
+                          <>
+                            {data2?.section_media == "youtube" ? (
+                              <ReactPlayer
+                                url={
+                                  data2?.image ? data2?.image : "demo-video.mp4"
+                                }
+                                controls={true}
+                                playing={false}
+                                muted={false}
+                                width={"100%"}
+                                height={300}
+                              />
+                            ) : (
+                              <>
+                                <Image
+                                  src={
+                                    data2?.image
+                                      ? process.env.SITE_URL + data2?.image
+                                      : "/bg-video-banner.jpg"
+                                  }
+                                  height={300}
+                                  width={800}
+                                  alt="video-banner"
+                                  style={{ width: "100%", objectFit: "cover" }}
+                                />
+                              </>
+                            )}
+                          </>
                         )}
                       </div>
                     </div>
