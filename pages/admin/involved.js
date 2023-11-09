@@ -739,7 +739,7 @@ const GetInvolved = () => {
                               {item?.created_at
                                 ? getFormatedDate(
                                   item?.created_at,
-                                  "DD-MM-YYYY"
+                                  "MM/DD/YYYY"
                                 )
                                 : ""}
                             </td>
