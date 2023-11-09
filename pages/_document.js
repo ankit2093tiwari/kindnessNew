@@ -4,17 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head>
-      <meta
-          name="og:title"
-          content="I am Jhone. Full Stack Developer."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="my_website_link" />
-        <meta property="og:site_name" content="my_website_name" />
-        <meta
-          property="og:description"
-          content="This is my personal blog website."
-        />
+      
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
