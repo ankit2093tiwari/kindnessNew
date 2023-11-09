@@ -617,7 +617,7 @@ function MainPage({ data }) {
                   <div className="row mt-4 icons">
                     <div className="col-md-2">
                       <h3 className="align-self-center">
-                        <Link href="#!" target="_blank">
+                       <Link href={"/news/"+ newsSectionFirstData?.id} target="_blank">
                           <span className="share_wrap">
                             <i className="fa fa-comment" aria-hidden="true" />
                             {featuredCmts?.length > 0
@@ -625,6 +625,7 @@ function MainPage({ data }) {
                               : "0"}
                           </span>
                         </Link>
+                            
                       </h3>
                     </div>{" "}
                     <div className="col-md-2">
